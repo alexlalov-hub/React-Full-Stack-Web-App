@@ -1,37 +1,26 @@
-import { Button, Toolbar, AppBar, Typography, CssBaseline } from '@mui/material';
-import { color, Container, createTheme, ThemeProvider } from '@mui/system';
+import { Typography, CssBaseline } from '@mui/material';
+import { Container } from '@mui/system';
 import { Fragment } from 'react';
 
-const buttonTheme = createTheme({
-    palette: {
-        primary: {
-            main: '#000000'
-        }
-    }
-})
+import Navigation from './components/common/Navigation';
 
 function App() {
     return (
         <Fragment>
             <CssBaseline />
-            <AppBar sx={{ position: "static" }}>
-                <Toolbar >
-                    <Button sx={{ color: "black", left: "2270px", fontSize: "17px" }}>Register</Button>
-                    <Button sx={{ color: "black", left: "2275px", fontSize: "17px" }}>Login</Button>
-                    <Button sx={{ color: "black", left: "2280px", fontSize: "17px" }}>Logout</Button>
-                </Toolbar>
-            </AppBar>
-            <main>
+            <Navigation />
+            <main style={{ backgroundColor: "#1976d2" }}>
                 <div>
-                    <Container maxWidth='sm'>
-
+                    <Container sx={{ height: 1234 }}>
                         <Typography variant='h2' color="inherit">Hello</Typography>
                     </Container>
                 </div>
+                <footer>
+                    Hello
+                </footer>
             </main>
+
         </Fragment>
-
-
     );
 }
 
