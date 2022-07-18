@@ -15,8 +15,10 @@ function App() {
         <Fragment>
             <CssBaseline />
             <AppBar sx={{ position: "static" }}>
-                <Toolbar>
-                    <Button sx={{ color: "black", position: "right" }}>Login</Button>
+                <Toolbar >
+                    <Button sx={{ color: "black", left: "2270px", fontSize: "17px" }}>Register</Button>
+                    <Button sx={{ color: "black", left: "2275px", fontSize: "17px" }}>Login</Button>
+                    <Button sx={{ color: "black", left: "2280px", fontSize: "17px" }}>Logout</Button>
                 </Toolbar>
             </AppBar>
             <main>
