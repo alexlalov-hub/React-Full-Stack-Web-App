@@ -1,13 +1,33 @@
-import { Link, Route } from 'react-router-dom';
-import './App.css';
+import { Button, Toolbar, AppBar, Typography, CssBaseline } from '@mui/material';
+import { color, Container, createTheme, ThemeProvider } from '@mui/system';
+import { Fragment } from 'react';
+
+const buttonTheme = createTheme({
+    palette: {
+        primary: {
+            main: '#000000'
+        }
+    }
+})
 
 function App() {
     return (
-        <div className="App">
-            <header className="App-header">
+        <Fragment>
+            <CssBaseline />
+            <AppBar sx={{ position: "static" }}>
+                <Toolbar>
+                    <Button sx={{ color: "black", position: "right" }}>Login</Button>
+                </Toolbar>
+            </AppBar>
+            <main>
+                <div>
+                    <Container maxWidth='sm'>
 
-            </header>
-        </div>
+                        <Typography variant='h2' color="inherit">Hello</Typography>
+                    </Container>
+                </div>
+            </main>
+        </Fragment>
 
 
     );
