@@ -6,21 +6,20 @@ import Navigation from './components/common/Navigation';
 
 function App() {
     return (
-        <Fragment>
+        <div style={{ height: 1235 }}>
             <CssBaseline />
             <Navigation />
             <main style={{ backgroundColor: "#1976d2" }}>
                 <div>
-                    <Container sx={{ height: 1234 }}>
+                    <Container sx={{ height: 1235, backgroundColor: "black" }}>
                         <Typography variant='h2' color="inherit">Hello</Typography>
                     </Container>
                 </div>
                 <footer>
-                    Hello
+                    <p>Hello</p>
                 </footer>
             </main>
-
-        </Fragment>
+        </div>
     );
 }
 
