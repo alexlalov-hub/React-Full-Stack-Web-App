@@ -1,6 +1,6 @@
-const { PORT, DB_NAME, DB_COLLECTION } = process.env
+const { PORT, DB_NAME, DB_CONNECTION } = process.env
 
 module.exports = {
-    port: PORT || 3300,
-    dbConnection: `${DB_COLLECTION}/${DB_NAME}`
+    port: PORT || 5000,
+    dbConnection: `${DB_CONNECTION}/${DB_NAME}`
 }
