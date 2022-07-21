@@ -1,19 +1,23 @@
-import { Typography, AppBar, Grow, Grid } from '@mui/material';
-import { Container, StyledEngineProvider } from '@mui/system';
+import { Typography, AppBar, Grow, Grid, createTheme, ThemeProvider } from '@mui/material';
+import { Container } from '@mui/system';
 
-import './App.css'
-
+import useStyles from './style'
+import globe from './images/globe-flat.png'
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
+
 import Posts from './components/Posts/Posts'
 import Form from './components/Form/Form'
 
+const theme = createTheme()
+
 function App() {
+    const classes = useStyles(theme)
     return (
-        <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
             <Container maxWidth="lg">
-                <AppBar className='appBar' position='static' color='inherit'>
-                    <Typography className='heading' variant='h2' align='center'>Traveler's Heaven</Typography>
-                    <TravelExploreIcon className='image' />
+                <AppBar className={classes.appBar} position='static' color='inherit' sx={{ flexDirection: 'row' }}>
+                    <Typography className={classes.heading} variant='h2' align='center'>Traveler's Haven</Typography>
+                    <img className={classes.image} src={globe} alt="Memories" height="60px" sx={{}} />
                 </AppBar>
                 <Grow in>
                     <Container>
@@ -28,7 +32,7 @@ function App() {
                     </Container>
                 </Grow>
             </Container>
-        </StyledEngineProvider>
+        </ThemeProvider>
     );
 }
 
