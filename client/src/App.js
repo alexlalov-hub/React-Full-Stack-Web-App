@@ -1,25 +1,34 @@
-import { Typography, CssBaseline } from '@mui/material';
-import { Container } from '@mui/system';
-import { Fragment } from 'react';
+import { Typography, AppBar, Grow, Grid } from '@mui/material';
+import { Container, StyledEngineProvider } from '@mui/system';
 
-import Navigation from './components/common/Navigation';
+import './App.css'
+
+import TravelExploreIcon from '@mui/icons-material/TravelExplore';
+import Posts from './components/Posts/Posts'
+import Form from './components/Form/Form'
 
 function App() {
     return (
-        <div style={{ height: 1235 }}>
-            <CssBaseline />
-            <Navigation />
-            <main style={{ backgroundColor: "#1976d2" }}>
-                <div>
-                    <Container sx={{ height: 1235, backgroundColor: "black" }}>
-                        <Typography variant='h2' color="inherit">Hello</Typography>
+        <StyledEngineProvider injectFirst>
+            <Container maxWidth="lg">
+                <AppBar className='appBar' position='static' color='inherit'>
+                    <Typography className='heading' variant='h2' align='center'>Traveler's Heaven</Typography>
+                    <TravelExploreIcon className='image' />
+                </AppBar>
+                <Grow in>
+                    <Container>
+                        <Grid container justify="space-between" alignItems="stretch" spacing={3}>
+                            <Grid item xs={12} sm={7}>
+                                <Posts />
+                            </Grid>
+                            <Grid item xs={12} sm={4}>
+                                <Form />
+                            </Grid>
+                        </Grid>
                     </Container>
-                </div>
-                <footer>
-                    <p>Hello</p>
-                </footer>
-            </main>
-        </div>
+                </Grow>
+            </Container>
+        </StyledEngineProvider>
     );
 }
 
