@@ -3,11 +3,11 @@ const express = require('express')
 
 const db = require('./config/database')
 const { port, dbConnection } = require('./config/config')
-const routes = require('./routes')
+const routes = require('./routes/posts')
 
 const app = express()
 
-app.use(routes)
+app.use('/posts', routes)
 
 const start = async () => {
     try {
