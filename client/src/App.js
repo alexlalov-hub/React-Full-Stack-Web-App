@@ -1,17 +1,23 @@
+import React, { useEffect } from 'react'
 import { Typography, AppBar, Grow, Grid, createTheme, ThemeProvider } from '@mui/material';
 import { Container } from '@mui/system';
+import { useDispatch } from 'react-redux'
 
-import useStyles from './style'
-import globe from './images/globe-flat.png'
-import TravelExploreIcon from '@mui/icons-material/TravelExplore';
-
+import { getPosts } from './actions/posts'
 import Posts from './components/Posts/Posts'
 import Form from './components/Form/Form'
+import globe from './images/globe-flat.png'
+import useStyles from './style'
 
 const theme = createTheme()
 
 function App() {
     const classes = useStyles(theme)
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(getPosts())
+    }, [dispatch])
     return (
         <ThemeProvider theme={theme}>
             <Container maxWidth="lg">
