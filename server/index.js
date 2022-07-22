@@ -7,11 +7,9 @@ const routes = require('./routes/posts')
 
 const app = express()
 
-app.use('/posts', routes)
-
 const start = async () => {
     try {
-        await db(dbConnection)
+        db(dbConnection)
         require('./config/express')(app, express)
 
         console.log('Database connected');
@@ -22,3 +20,5 @@ const start = async () => {
 }
 
 start()
+
+app.use('/posts', routes)

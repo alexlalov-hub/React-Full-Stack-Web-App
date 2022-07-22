@@ -13,11 +13,7 @@ const theme = createTheme()
 
 function App() {
     const classes = useStyles(theme)
-    const dispatch = useDispatch()
 
-    useEffect(() => {
-        dispatch(getPosts())
-    }, [dispatch])
     return (
         <ThemeProvider theme={theme}>
             <Container maxWidth="lg">
