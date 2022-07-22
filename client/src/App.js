@@ -1,9 +1,7 @@
 import React, { useEffect } from 'react'
 import { Typography, AppBar, Grow, Grid, createTheme, ThemeProvider } from '@mui/material';
 import { Container } from '@mui/system';
-import { useDispatch } from 'react-redux'
 
-import { getPosts } from './actions/posts'
 import Posts from './components/Posts/Posts'
 import Form from './components/Form/Form'
 import globe from './images/globe-flat.png'
