@@ -6,18 +6,21 @@ import Posts from './components/Posts/Posts'
 import Form from './components/Form/Form'
 import globe from './images/globe-flat.png'
 import useStyles from './style'
+import { useSelector } from 'react-redux';
 
 const theme = createTheme()
 
 function App() {
     const classes = useStyles(theme)
+    const posts = useSelector((store) => store.posts)
 
+    console.log(posts);
     return (
         <ThemeProvider theme={theme}>
             <Container maxWidth="lg">
                 <AppBar className={classes.appBar} position='static' color='inherit' sx={{ flexDirection: 'row' }}>
                     <Typography className={classes.heading} variant='h2' align='center'>Traveler's Haven</Typography>
-                    <img className={classes.image} src={globe} alt="Memories" height="60px" sx={{}} />
+                    <img className={classes.image} src={globe} alt="Memories" height="50px" sx={{}} />
                 </AppBar>
                 <Grow in>
                     <Container>
