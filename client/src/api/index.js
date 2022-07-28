@@ -1,22 +1,13 @@
-const url = 'http://localhost:5000/posts'
+import requestHandler from './requestHandler'
 
 export const fetchPosts = async () => {
-    try {
-        const response = await fetch(url)
+    const { data } = await requestHandler.GET('/posts')
 
-        if (response.ok !== true) {
-            const error = response.json()
-            throw new Error(error.message)
-        }
+    return data
+}
 
-        if (response.status === 204) {
-            return response
-        } else {
-            const data = await response.json()
-            return data
-        }
-    } catch (error) {
-        alert(error.message)
-        throw error
-    }
+export const createPost = async (newPost) => {
+    const { res, data } = await requestHandler.POST('/posts', newPost)
+
+    return { res, data }
 }

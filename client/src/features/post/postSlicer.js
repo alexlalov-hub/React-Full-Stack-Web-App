@@ -1,20 +1,35 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-import { fetchPosts } from "../../api";
+import { fetchPosts, createPost } from "../../api";
 
-let initialState = {}
+export const getPosts = createAsyncThunk('posts/getPosts', async () => {
+    return await fetchPosts()
+})
 
-async function setInitalState() {
-    const posts = await fetchPosts()
+export const postCreation = createAsyncThunk('/posts/postCreation', async (newPost) => {
+    return await createPost(newPost)
+})
 
-    initialState = {
-        posts
-    }
+const initialState = {
+    posts: [],
+    status: null
 }
-setInitalState()
+
 export const postsSlice = createSlice({
-    name: 'posts',
-    initialState
+    name: 'post',
+    initialState,
+    extraReducers: {
+        [getPosts.pending]: (state, action) => {
+            state.status = 'pending'
+        },
+        [getPosts.fulfilled]: (state, { payload }) => {
+            state.posts = payload
+            state.status = 'success'
+        },
+        [getPosts.rejected]: (state, action) => {
+            state.status = 'failed'
+        }
+    }
 })
 
 export default postsSlice.reducer;
