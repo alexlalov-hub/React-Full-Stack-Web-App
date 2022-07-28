@@ -28,6 +28,16 @@ export const postsSlice = createSlice({
         },
         [getPosts.rejected]: (state, action) => {
             state.status = 'failed'
+        },
+        [postCreation.pending]: (state, action) => {
+            state.status = 'pending'
+        },
+        [postCreation.fulfilled]: (state, { payload }) => {
+            state.posts = payload
+            state.status = 'success'
+        },
+        [postCreation.rejected]: (state, action) => {
+            state.stasus = 'failed'
         }
     }
 })

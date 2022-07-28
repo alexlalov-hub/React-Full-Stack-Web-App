@@ -1,19 +1,33 @@
-import { useEffect, useState } from 'react';
+import { CircularProgress, Grid } from '@mui/material';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPosts } from '../../features/post/postSlicer';
+
+
 import Post from './Post/Post';
 import useStyles from './styles'
 
 const Posts = () => {
     const classes = useStyles()
     const dispatch = useDispatch()
+    const { posts, status } = useSelector((store) => store.posts)
 
     useEffect(() => {
         dispatch(getPosts())
     }, [dispatch])
 
+    const isLoading = status === 'pending'
+    console.log(isLoading);
     return (
-        <Post />
+        isLoading ? <CircularProgress /> :
+            <Grid className={classes.container} container alignItems='stretch' spacing={3}>
+                {posts.map(post => (
+                    <Grid rid key={post._id} item xs={12} sm={6}>
+                        <Post post={post}></Post>
+                    </Grid>
+                ))}
+            </Grid>
+
     )
 }
 

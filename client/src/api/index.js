@@ -7,7 +7,7 @@ export const fetchPosts = async () => {
 }
 
 export const createPost = async (newPost) => {
-    const { res, data } = await requestHandler.POST('/posts', newPost)
+    const { data } = await requestHandler.POST('/posts', newPost)
 
-    return { res, data }
+    return data
 }

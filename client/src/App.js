@@ -6,15 +6,12 @@ import Posts from './components/Posts/Posts'
 import Form from './components/Form/Form'
 import globe from './images/globe-flat.png'
 import useStyles from './style'
-import { useSelector } from 'react-redux';
 
 const theme = createTheme()
 
 function App() {
     const classes = useStyles(theme)
-    const posts = useSelector((store) => store.posts)
 
-    console.log(posts);
     return (
         <ThemeProvider theme={theme}>
             <Container maxWidth="lg">

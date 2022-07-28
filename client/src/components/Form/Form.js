@@ -3,7 +3,7 @@ import FileBase from 'react-file-base64'
 import { useState } from 'react';
 import useStyles from './styles'
 import { useDispatch } from 'react-redux';
-import { createPost } from '../../api';
+import { postCreation } from '../../features/post/postSlicer';
 
 const Form = () => {
     const [postData, setPostData] = useState({
@@ -23,7 +23,7 @@ const Form = () => {
     const handleSubmit = (e) => {
         e.preventDefault()
 
-        dispatch(createPost(postData))
+        dispatch(postCreation(postData))
     }
 
     const clearFields = () => {
