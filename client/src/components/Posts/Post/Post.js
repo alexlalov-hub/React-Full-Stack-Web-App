@@ -12,12 +12,12 @@ const Post = ({
         <Card className={classes.card}>
             <CardMedia className={classes.media} image={post.selectedFile} title={post.title} />
             <div className={classes.overlay}>
-                <Typography variant='h6'>{post.creator}</Typography>
+                <Typography variant='h6' required>{post.creator}</Typography>
                 <Typography variant='body2'>{moment(post.createdAt).fromNow()}</Typography>
             </div>
             <div className={classes.overlay2}>
-                <Button style={{ color: 'white', size: 'small' }} onClick={() => { }}>
-                    <MoreHoriz fontSize='default'></MoreHoriz>
+                <Button sx={{ color: 'white', size: 'large' }} onClick={() => { }}>
+                    <MoreHoriz fontSize='medium'></MoreHoriz>
                 </Button>
             </div>
             <div className={classes.details}>

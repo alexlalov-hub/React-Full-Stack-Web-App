@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Typography, AppBar, Grow, Grid, createTheme, ThemeProvider } from '@mui/material';
 import { Container } from '@mui/system';
 
@@ -14,14 +14,14 @@ function App() {
 
     return (
         <ThemeProvider theme={theme}>
-            <Container maxWidth="lg">
-                <AppBar className={classes.appBar} position='static' color='inherit' sx={{ flexDirection: 'row' }}>
+            <Container maxWidth="lg" sx={{ paddingLeft: '16px', paddingRight: '16px' }}>
+                <AppBar className={classes.appBar} position='static' color='inherit' sx={{ flexDirection: 'row', display: 'flex' }}>
                     <Typography className={classes.heading} variant='h2' align='center'>Traveler's Haven</Typography>
                     <img className={classes.image} src={globe} alt="Memories" height="50px" sx={{}} />
                 </AppBar>
                 <Grow in>
                     <Container>
-                        <Grid container justify="space-between" alignItems="stretch" spacing={3}>
+                        <Grid container justifyContent="space-between" alignItems="stretch" spacing={3}>
                             <Grid item xs={12} sm={7}>
                                 <Posts />
                             </Grid>
