@@ -10,7 +10,7 @@ import useStyles from './styles'
 const Posts = () => {
     const classes = useStyles()
     const dispatch = useDispatch()
-    const { posts, status } = useSelector((store) => store.posts)
+    const { posts, status } = useSelector((state) => state.posts)
 
     useEffect(() => {
         dispatch(getPosts())

@@ -33,7 +33,7 @@ export const postsSlice = createSlice({
             state.status = 'pending'
         },
         [postCreation.fulfilled]: (state, { payload }) => {
-            state.posts.push(payload)
+            state.posts = [...state.posts, payload]
             state.status = 'success'
         },
         [postCreation.rejected]: (state, action) => {
