@@ -1,16 +1,14 @@
 import { Button, createTheme, Paper, TextField, Typography } from '@mui/material';
-import FileBase from 'react-file-base64'
 import { useEffect, useState } from 'react';
+import FileBase from 'react-file-base64'
 import useStyles from './styles'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useForm, Controller } from 'react-hook-form'
-import { postCreation } from '../../features/post/postSlicer';
+import { postCreation, postUpdate } from '../../features/post/postSlicer';
 
 const theme = createTheme()
 
-const Form = () => {
-    const methods = useForm({ mode: 'onBlur' });
-    const { handleSubmit, control, formState: { errors }, resetField } = methods
+const Form = ({ currentId, setCurrentId }) => {
     const [postData, setPostData] = useState({
         creator: '',
         title: '',
@@ -18,144 +16,73 @@ const Form = () => {
         tags: '',
         selectedFile: ''
     })
-
+    const [errors, setErrors] = useState({})
+    const post = useSelector((state) => currentId ? state.posts.posts.find((post) => post._id === currentId) : null)
     const classes = useStyles(theme)
     const dispatch = useDispatch()
 
-    const resetFields = () => {
-        resetField('creator')
-        resetField('title')
-        resetField('message')
-        resetField('tags')
-        resetField('image')
-    }
+    useEffect(() => {
+        if (post) {
+            setPostData(post)
+        }
+    }, [post])
 
-    const onSubmit = (values, e) => {
+    const onSubmit = (e) => {
         e.preventDefault()
 
-        dispatch(postCreation(postData))
-
-        resetFields()
+        if (validate()) {
+            if (currentId) {
+                dispatch(postUpdate(currentId, postData))
+            } else {
+                dispatch(postCreation(postData))
+            }
+        }
     }
 
     const clearFields = () => {
-
+        setCurrentId(null)
+        setPostData({})
     }
 
-    const handleImage = (event) => {
-        let files = event.target.files;
-        let reader = new FileReader();
-        reader.readAsDataURL(files[0]);
-        reader.onload = (e) => {
-            setPostData({ ...postData, selectedFile: e.target.result })
-        }
+    const validate = () => {
+        let errorObject = {}
+        errorObject.creator = postData.creator.length > 2 && postData.creator.length < 20 ? "" : "Creator must be between 3 and 20 characters."
+        errorObject.title = postData.title.length > 2 && postData.title.length < 20 ? "" : "Title must be between 3 and 20 characters."
+        errorObject.message = postData.message ? "" : "Message is required."
+        errorObject.tags = postData.tags ? "" : "Tag/tags is/are required."
+        errorObject.selectedFile = postData.selectedFile ? "" : "Image is required"
+
+        setErrors({ ...errorObject })
+
+        return Object.values(errorObject).every(x => x === '')
     }
 
     return (
         <Paper className={classes.paper}>
-            <form autoComplete='off' className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit(onSubmit)}>
+            <form autoComplete='off' className={`${classes.root} ${classes.form}`} onSubmit={onSubmit}>
                 <Typography variant='h6'>Creating a destination</Typography>
-                <Controller
-                    defaultValue=''
-                    name='creator'
-                    control={control}
-                    // rules={{ required: 'Creator required' } }}
-                    render={({ field }) => <TextField value={field.value} onChange={(e, value) => {
-                        field.onChange(e, value); setPostData({ ...postData, creator: e.target.value })
-                    }} variant='outlined' label='Creator' fullWidth rules={field.rules} />}
-                    rules={{
-                        required: 'Creator is required',
-                        minLength: { value: 3, message: 'Creator must be at least 3 characters long' },
-                        maxLength: { value: 20, message: 'Creator must be shoter than 20 characters' }
-                    }}
-                />
-                {errors.creator?.message === 'Creator is required' && <Typography variant='h12' color='error' fontFamily='Roboto' fontSize={15}>Creator is required</Typography>}
-                {errors.creator?.message === 'Creator must be at least 3 characters long'
-                    && <Typography variant='h12' color='error' fontFamily='Roboto' fontSize={15}>Creator must be at least 3 characters long</Typography>}
-                {errors.creator?.message === 'Creator must be shoter than 20 characters'
-                    && <Typography variant='h12' color='error' fontFamily='Roboto' fontSize={15}>Creator must be shoter than 20 characters</Typography>}
 
+                <TextField value={postData.creator} onChange={(e) => {
+                    setPostData({ ...postData, creator: e.target.value })
+                }} variant='outlined' label='Creator' fullWidth error={errors.creator ? true : false} helperText={errors.creator} />
 
-                <Controller
-                    defaultValue=''
-                    name='title'
-                    control={control}
-                    render={({ field }) => <TextField value={field.value} onChange={(e, value) => {
-                        field.onChange(e, value); setPostData({ ...postData, title: e.target.value })
-                    }} variant='outlined' label='Title' fullWidth rules={field.rules} />}
-                    rules={{
-                        required: 'Title is required',
-                        minLength: { value: 3, message: 'Title must be at least 3 characters long' },
-                        maxLength: { value: 20, message: 'Title must be shoter than 20 characters' }
-                    }}
-                />
-                {errors.title?.message === 'Title is required' && <Typography variant='h12' color='error' fontFamily='Roboto' fontSize={15}>Title is required</Typography>}
-                {errors.title?.message === 'Title must be at least 3 characters long'
-                    && <Typography variant='h12' color='error' fontFamily='Roboto' fontSize={15}>Title must be at least 3 characters long</Typography>}
-                {errors.title?.message === 'Title must be shoter than 20 characters'
-                    && <Typography variant='h12' color='error' fontFamily='Roboto' fontSize={15}>Title must be shoter than 20 characters</Typography>}
+                <TextField value={postData.title} onChange={(e) => {
+                    setPostData({ ...postData, title: e.target.value })
+                }} variant='outlined' label='Title' fullWidth error={errors.title ? true : false} helperText={errors.title} />
 
+                <TextField value={postData.message} onChange={(e) => {
+                    setPostData({ ...postData, message: e.target.value })
+                }} variant='outlined' label='Message' fullWidth error={errors.message ? true : false} helperText={errors.message} />
 
-                <Controller
-                    defaultValue=''
-                    name='message'
-                    control={control}
-                    render={({ field }) => <TextField value={field.value} onChange={(e, value) => {
-                        field.onChange(e, value); setPostData({ ...postData, message: e.target.value })
-                    }} variant='outlined' label='Message' fullWidth rules={field.rules} />}
-                    rules={{
-                        required: 'Message is required',
-                        minLength: { value: 3, message: 'Message must be at least 3 characters long' },
-                        maxLength: { value: 20, message: 'Message must be shoter than 20 characters' }
-                    }}
-                />
-                {errors.message?.message === 'Message is required' && <Typography variant='h12' color='error' fontFamily='Roboto' fontSize={15}>Message is required</Typography>}
-
-
-                <Controller
-                    defaultValue=''
-                    name='tags'
-                    control={control}
-                    render={({ field }) => <TextField value={field.value} onChange={(e, value) => {
-                        field.onChange(e, value); setPostData({ ...postData, tags: e.target.value })
-                    }} variant='outlined' label='Tags' fullWidth rules={field.rules} />}
-                    rules={{
-                        required: 'Tags are required'
-                    }}
-                />
-                {errors.tags?.message === 'Tags are required' && <Typography variant='h12' color='error' fontFamily='Roboto' fontSize={15}>Tags are required</Typography>}
+                <TextField value={postData.tags} onChange={(e) => {
+                    setPostData({ ...postData, tags: e.target.value.split(',') })
+                }} variant='outlined' label='Tags (separated by commas)' fullWidth error={errors.tags ? true : false} helperText={errors.tags} />
 
                 <div className={classes.fileInput}>
-                    {/* <FileBase
-                        type='file'
-                        multiple={false}
-                        onDone={({ base64 }) => {
-                            setPostData({ ...postData, selectedFile: base64 })
-                        }}
-                    /> */}
-                    {/* <Controller
-                        defaultValue=''
-                        name='image'
-                        control={control}
-                        render={({ field }) => <FileBase value={field.value} onChange={(e, value) => { field.onChange(e, value) }} variant='outlined' label='Tags' type='file' multiple={false}
-                            onDone={({ base64 }) => {
-                                setPostData({ ...postData, selectedFile: base64 })
-                            }} fullWidth rules={field.rules} />}
-                        rules={{
-                            required: 'Image is required'
-                        }}
-                    /> */}
-                    <Controller
-                        defaultValue=''
-                        name='image'
-                        control={control}
-                        render={({ field }) => <input value={field.value} onChange={(e, value) => { field.onChange(e, value); handleImage(e) }} variant='outlined' label='Tags' type='file' rules={field.rules} />}
-                        rules={{
-                            required: 'Image is required'
-                        }}
-                    />
+                    <FileBase type='file' multiple={false} onDone={({ base64 }) => { setPostData({ ...postData, selectedFile: base64 }) }} />
                 </div>
-                {errors.image?.message === 'Image is required' && <Typography variant='h12' color='error' fontFamily='Roboto' fontSize={15}>Image is required</Typography>}
+                {errors.selectedFile && <Typography variant='h12' fontFamily='Roboto' fontSize={13} color='error'>{errors.selectedFile}</Typography>}
+
                 <Button sx={{ marginBottom: 1, marginTop: 1 }} variant='contained' color='primary' size='large' type='submit' fullWidth>Submit</Button>
                 <Button variant='contained' color='error' size='small' onClick={clearFields} fullWidth>Clear</Button>
             </form>

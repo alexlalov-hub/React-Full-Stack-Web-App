@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-import { fetchPosts, createPost } from "../../api";
+import { fetchPosts, createPost, updatePost } from "../../api";
 
 export const getPosts = createAsyncThunk('posts/getPosts', async () => {
     return await fetchPosts()
@@ -8,6 +8,10 @@ export const getPosts = createAsyncThunk('posts/getPosts', async () => {
 
 export const postCreation = createAsyncThunk('/posts/postCreation', async (newPost) => {
     return await createPost(newPost)
+})
+
+export const postUpdate = createAsyncThunk('/posts/postUpdate', async (id, updatedPost) => {
+    return await updatePost(id, updatedPost)
 })
 
 const initialState = {
@@ -38,6 +42,16 @@ export const postsSlice = createSlice({
         },
         [postCreation.rejected]: (state, action) => {
             state.stasus = 'failed'
+        },
+        [postUpdate.pending]: (state, action) => {
+            state.status = 'pending'
+        },
+        [postUpdate.fulfilled]: (state, { payload }) => {
+            state.posts.map((post) => post._id === payload._id ? payload : post)
+            state.status = 'success'
+        },
+        [postUpdate.rejected]: (state, action) => {
+            state.status = 'failed'
         }
     }
 })

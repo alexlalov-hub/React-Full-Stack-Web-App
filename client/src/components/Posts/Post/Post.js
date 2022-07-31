@@ -4,7 +4,8 @@ import { MoreHoriz, ThumbUp, Delete } from '@mui/icons-material';
 import useStyles from './styles'
 
 const Post = ({
-    post
+    post,
+    setCurrentId
 }) => {
     const classes = useStyles()
 
@@ -16,15 +17,16 @@ const Post = ({
                 <Typography variant='body2'>{moment(post.createdAt).fromNow()}</Typography>
             </div>
             <div className={classes.overlay2}>
-                <Button sx={{ color: 'white', size: 'large' }} onClick={() => { }}>
+                <Button sx={{ color: 'white', size: 'large' }} onClick={(e) => { e.stopPropagation(); setCurrentId(post._id) }}>
                     <MoreHoriz fontSize='medium'></MoreHoriz>
                 </Button>
             </div>
             <div className={classes.details}>
                 <Typography variant='body2' color='InfoText'>{post.tags.map((tag) => `#${tag} `)}</Typography>
             </div>
+            <Typography className={classes.title} variant='h5' gutterBottom>{post.title}</Typography>
             <CardContent>
-                <Typography className={classes.title} variant='h5' gutterBottom>{post.message}</Typography>
+                <Typography variant='h5' gutterBottom>{post.message}</Typography>
             </CardContent>
             <CardActions className={classes.cardActions}>
                 <Button size='small' color='primary' onClick={() => { }}>

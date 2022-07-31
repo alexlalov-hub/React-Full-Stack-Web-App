@@ -1,3 +1,4 @@
+const { default: mongoose } = require('mongoose');
 const Post = require('../models/Post')
 
 const getPosts = async (req, res) => {
@@ -26,7 +27,21 @@ const createPost = async (req, res) => {
     }
 }
 
+const updatePost = async (req, res) => {
+    const { id: _id } = req.params.id
+    const post = req.body
+
+    if (!mongoose.Types.ObjectId.isValid) {
+        res.status(404).send('No post with that id found')
+    }
+
+    const updatedPost = await Post.findByIdAndUpdate(_id, { ...post, _id }, { new: true })
+
+    res.json(updatedPost)
+}
+
 module.exports = {
     getPosts,
-    createPost
+    createPost,
+    updatePost
 }

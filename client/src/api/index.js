@@ -11,3 +11,9 @@ export const createPost = async (newPost) => {
 
     return data
 }
+
+export const updatePost = async (id, updatedPost) => {
+    const { data } = await requestHandler.PATCH(`/post/${id}`, updatePost)
+
+    return data
+}

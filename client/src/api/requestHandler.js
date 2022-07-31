@@ -31,13 +31,13 @@ async function request(method, endpoint, body) {
 
 const GET = request.bind(null, 'GET');
 const POST = request.bind(null, 'POST');
-const PUT = request.bind(null, 'PUT');
+const PATCH = request.bind(null, 'PATCH');
 const DELETE = request.bind(null, 'DELETE');
 
 const requestService = {
     GET,
     POST,
-    PUT,
+    PATCH,
     DELETE
 };
 
