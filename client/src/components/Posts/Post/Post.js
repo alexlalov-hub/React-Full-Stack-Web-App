@@ -3,7 +3,7 @@ import { Button, Card, CardActions, CardContent, CardMedia, Typography } from '@
 import { MoreHoriz, ThumbUp, Delete } from '@mui/icons-material';
 import useStyles from './styles'
 import { useDispatch } from 'react-redux';
-import { postDeletion } from '../../../features/post/postSlicer';
+import { postDeletion, postLiking } from '../../../features/post/postSlicer';
 
 const Post = ({
     post,
@@ -32,9 +32,9 @@ const Post = ({
                 <Typography variant='body2' gutterBottom>{post.message}</Typography>
             </CardContent>
             <CardActions className={classes.cardActions}>
-                <Button size='small' color='primary' onClick={() => { }}>
+                <Button size='small' color='primary' onClick={(e) => { e.stopPropagation(); dispatch(postLiking(post._id)) }}>
                     <ThumbUp fontSize='small' />
-                    Like
+                    &nbsp; Like &nbsp;
                     {post.likeCount}
                 </Button>
                 <Button size='small' color='primary' onClick={() => { dispatch(postDeletion(post._id)) }}>

@@ -21,7 +21,7 @@ const Form = ({ currentId, setCurrentId }) => {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        if (post) {
+        if (post !== null) {
             setPostData({ ...post })
         }
     }, [post])
@@ -32,7 +32,9 @@ const Form = ({ currentId, setCurrentId }) => {
         if (validate()) {
             if (currentId) {
                 dispatch(postUpdate({ currentId, postData }))
-                clearFields();
+                setTimeout(() => {
+                    clearFields();
+                }, 200)
             } else {
                 dispatch(postCreation(postData))
                 clearFields();
@@ -86,7 +88,7 @@ const Form = ({ currentId, setCurrentId }) => {
                 }} variant='outlined' label='Tags (separated by commas)' fullWidth error={errors.tags ? true : false} helperText={errors.tags} />
 
                 <div className={classes.fileInput}>
-                    <FileBase type='file' multiple={false} onDone={({ base64 }) => { setPostData({ ...postData, selectedFile: base64 }) }} />
+                    <FileBase type='file' multiple={false} onDone={({ base64 }) => { setPostData({ ...postData, selectedFile: base64 }); base64 = null }} />
                 </div>
                 {errors.selectedFile && <Typography variant='h12' fontFamily='Roboto' fontSize={13} color='error'>{errors.selectedFile}</Typography>}
 

@@ -23,3 +23,9 @@ export const deletePost = async (id) => {
 
     return data
 }
+
+export const likePost = async (id) => {
+    const { data } = await requestHandler.PATCH(`/posts/${id}/likePost`)
+
+    return data
+}
