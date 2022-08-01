@@ -29,7 +29,7 @@ const Post = ({
             </div>
             <Typography className={classes.title} variant='h5' gutterBottom>{post.title}</Typography>
             <CardContent>
-                <Typography variant='h5' gutterBottom>{post.message}</Typography>
+                <Typography variant='body2' gutterBottom>{post.message}</Typography>
             </CardContent>
             <CardActions className={classes.cardActions}>
                 <Button size='small' color='primary' onClick={() => { }}>

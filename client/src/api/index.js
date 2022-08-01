@@ -19,5 +19,7 @@ export const updatePost = async (id, updatedPost) => {
 }
 
 export const deletePost = async (id) => {
-    await requestHandler.DELETE(`/posts/${id}`)
+    const { data } = await requestHandler.DELETE(`/posts/${id}`)
+
+    return data
 }
