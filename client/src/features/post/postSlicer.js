@@ -1,57 +1,43 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-import { fetchPosts, createPost, updatePost } from "../../api";
+import { fetchPosts, createPost, updatePost, deletePost } from "../../api";
 
-export const getPosts = createAsyncThunk('posts/getPosts', async () => {
+export const getPosts = createAsyncThunk('/post/getPosts', async () => {
     return await fetchPosts()
 })
 
-export const postCreation = createAsyncThunk('/posts/postCreation', async (newPost) => {
+export const postUpdate = createAsyncThunk('/post/postUpdate', async (data) => {
+    return await updatePost(data.currentId, data.postData)
+})
+
+export const postCreation = createAsyncThunk('/post/postCreation', async (newPost) => {
     return await createPost(newPost)
 })
 
-export const postUpdate = createAsyncThunk('/posts/postUpdate', async (id, updatedPost) => {
-    return await updatePost(id, updatedPost)
+export const postDeletion = createAsyncThunk('/post/postDeletion', async (id) => {
+    return await deletePost(id)
 })
 
 const initialState = {
     posts: [],
-    status: null
 }
 
 export const postsSlice = createSlice({
     name: 'post',
     initialState,
     extraReducers: {
-        [getPosts.pending]: (state, action) => {
-            state.status = 'pending'
-        },
         [getPosts.fulfilled]: (state, { payload }) => {
             state.posts = payload
-            state.status = 'success'
-        },
-        [getPosts.rejected]: (state, action) => {
-            state.status = 'failed'
-        },
-        [postCreation.pending]: (state, action) => {
-            state.status = 'pending'
         },
         [postCreation.fulfilled]: (state, { payload }) => {
             state.posts = [...state.posts, payload]
-            state.status = 'success'
-        },
-        [postCreation.rejected]: (state, action) => {
-            state.stasus = 'failed'
-        },
-        [postUpdate.pending]: (state, action) => {
-            state.status = 'pending'
         },
         [postUpdate.fulfilled]: (state, { payload }) => {
-            state.posts.map((post) => post._id === payload._id ? payload : post)
-            state.status = 'success'
+            state.posts = state.posts.map((post) => post._id === payload._id ? payload : post)
         },
-        [postUpdate.rejected]: (state, action) => {
-            state.status = 'failed'
+        [postDeletion.fulfilled]: (state, { payload }) => {
+            console.log(payload);
+            state.posts.filter((post) => post._id !== payload._id)
         }
     }
 })

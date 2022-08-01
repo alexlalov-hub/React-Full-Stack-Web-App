@@ -1,7 +1,10 @@
 async function request(method, endpoint, body) {
     try {
         const url = 'http://localhost:5000' + endpoint;
-        const headers = {};
+        const headers = {
+            'Access-Control-Allow-Origin': true,
+            'Access-Control-Allow-Credentials': true,
+        };
 
         const request = {
             method,

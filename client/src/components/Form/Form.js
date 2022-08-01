@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import FileBase from 'react-file-base64'
 import useStyles from './styles'
 import { useDispatch, useSelector } from 'react-redux';
-import { useForm, Controller } from 'react-hook-form'
 import { postCreation, postUpdate } from '../../features/post/postSlicer';
 
 const theme = createTheme()
@@ -23,7 +22,7 @@ const Form = ({ currentId, setCurrentId }) => {
 
     useEffect(() => {
         if (post) {
-            setPostData(post)
+            setPostData({ ...post })
         }
     }, [post])
 
@@ -32,16 +31,24 @@ const Form = ({ currentId, setCurrentId }) => {
 
         if (validate()) {
             if (currentId) {
-                dispatch(postUpdate(currentId, postData))
+                dispatch(postUpdate({ currentId, postData }))
+                clearFields();
             } else {
                 dispatch(postCreation(postData))
+                clearFields();
             }
         }
     }
 
     const clearFields = () => {
         setCurrentId(null)
-        setPostData({})
+        setPostData({
+            creator: '',
+            title: '',
+            message: '',
+            tags: '',
+            selectedFile: ''
+        })
     }
 
     const validate = () => {
@@ -49,7 +56,7 @@ const Form = ({ currentId, setCurrentId }) => {
         errorObject.creator = postData.creator.length > 2 && postData.creator.length < 20 ? "" : "Creator must be between 3 and 20 characters."
         errorObject.title = postData.title.length > 2 && postData.title.length < 20 ? "" : "Title must be between 3 and 20 characters."
         errorObject.message = postData.message ? "" : "Message is required."
-        errorObject.tags = postData.tags ? "" : "Tag/tags is/are required."
+        errorObject.tags = !postData.tags.includes('') ? "" : "Tag/tags is/are required."
         errorObject.selectedFile = postData.selectedFile ? "" : "Image is required"
 
         setErrors({ ...errorObject })

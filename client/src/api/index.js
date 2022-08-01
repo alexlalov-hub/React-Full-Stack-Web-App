@@ -13,7 +13,11 @@ export const createPost = async (newPost) => {
 }
 
 export const updatePost = async (id, updatedPost) => {
-    const { data } = await requestHandler.PATCH(`/post/${id}`, updatePost)
+    const { data } = await requestHandler.PATCH(`/posts/${id}`, updatedPost)
 
     return data
+}
+
+export const deletePost = async (id) => {
+    await requestHandler.DELETE(`/posts/${id}`)
 }
