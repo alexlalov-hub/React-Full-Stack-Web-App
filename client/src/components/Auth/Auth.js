@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router';
 import useStyles from './styles'
 import Input from './Inputs/Input'
 import { useDispatch } from 'react-redux';
-import { login } from '../../features/auth/authSlicer';
+import { login, signingIn, signingUp } from '../../features/auth/authSlicer';
 
 const theme = createTheme()
 
@@ -29,11 +29,10 @@ const Auth = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-
         if (isSignup) {
-
+            dispatch(signingUp({ userData, navigate }))
         } else {
-
+            dispatch(signingIn({ userData, navigate }))
         }
     }
 

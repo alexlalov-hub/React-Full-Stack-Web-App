@@ -30,3 +30,17 @@ export const likePost = async (id) => {
     return data
 }
 
+export const signIn = async (userData, navigate) => {
+    const { data } = await requestHandler.POST('/auth/signIn', userData)
+
+    navigate('/')
+    return data
+}
+
+export const signUp = async (userData, navigate) => {
+    const { data } = await requestHandler.POST('/auth/signUp', userData)
+
+    navigate('/')
+    return data
+}
+

@@ -29,7 +29,6 @@ const signIn = async (req, res) => {
 
 const signUp = async (req, res) => {
     const { email, password, confirmPassword, firstName, lastName } = req.body
-
     try {
         const existingUser = await User.findOne({ email })
 
@@ -41,15 +40,13 @@ const signUp = async (req, res) => {
             return res.status(404).json({ message: 'Passwords must match' })
         }
 
-        const hashedPass = await bcrypt.hash(password, 12)
-
-        const newUser = await User.create({ email, password: hashedPass, name: `${firstName} ${lastName}` })
+        const newUser = await User.create({ email: email, password: password, name: `${firstName} ${lastName}` })
 
         const token = jwt.sign({ email: newUser.email, id: newUser._id }, 'test', { expiresIn: '2h' })
 
         res.status(200).json({ newUser, token })
     } catch (error) {
-        res.status(500).json('Something went wrong')
+        res.status(500).json({ message: error })
     }
 }
 

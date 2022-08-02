@@ -9,20 +9,16 @@ import { logOut } from '../../features/auth/authSlicer'
 
 const Navbar = () => {
     const classes = useStyles()
-    const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')))
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const location = useLocation()
+    const user = useSelector(state => state.auth.user)
 
     const logout = () => {
         dispatch(logOut())
 
         navigate('/')
     }
-
-    useEffect(() => {
-        setUser(JSON.parse(localStorage.getItem('user')))
-    }, [location])
 
     return (
         <AppBar className={classes.appBar} position='static' color='inherit' sx={{ flexDirection: 'row', display: 'flex' }}>
