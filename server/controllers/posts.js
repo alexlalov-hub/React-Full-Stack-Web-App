@@ -29,11 +29,10 @@ const updatePost = async (req, res) => {
     const { id: _id } = req.params
     const post = req.body
 
-    if (!mongoose.Types.ObjectId.isValid(_id)) {
-        res.status(404).send('No post with that id found')
-    }
-
     try {
+        if (!mongoose.Types.ObjectId.isValid(_id)) {
+            res.status(404).send('No post with that id found')
+        }
         const updatedPost = await Post.findByIdAndUpdate(_id, { ...post, _id }, { new: true })
 
         res.status(200).json(updatedPost)
@@ -46,11 +45,11 @@ const updatePost = async (req, res) => {
 const deletePost = async (req, res) => {
     const { id } = req.params
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-        res.status(404).send('No post with that id found')
-    }
-
     try {
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            res.status(404).send('No post with that id found')
+        }
+
         const deletedPost = await Post.findByIdAndDelete(id)
 
         res.status(200).json(deletedPost)
@@ -62,14 +61,26 @@ const deletePost = async (req, res) => {
 const likePost = async (req, res) => {
     const { id } = req.params
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-        res.status(404).send('No post with that id found')
-    }
-
     try {
+        if (!req.userId) {
+            return res.json({ message: 'You are not authenticated' })
+        }
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            res.status(404).send('No post with that id found')
+        }
+
         const post = await Post.findById(id)
 
-        const updatedPost = await Post.findByIdAndUpdate(id, { likeCount: post.likeCount + 1 }, { new: true })
+        const index = post.likes.finIndex((id) => id === String(req.userId))
+
+        if (index === -1) {
+            post.likes.push(req.userId)
+        } else {
+            post.likes = post.likes.filter((id) => id !== String(req.userId))
+        }
+
+        const updatedPost = await Post.findByIdAndUpdate(id, post, { new: true })
 
         res.status(200).json(updatedPost)
     } catch (error) {

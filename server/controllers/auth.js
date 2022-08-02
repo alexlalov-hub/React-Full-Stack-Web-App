@@ -1,1 +1,59 @@
+const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 
+const User = require('../models/User')
+
+const signIn = async (req, res) => {
+    const { email, password } = req.body
+
+    try {
+        const user = await User.findOne({ email })
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found!' })
+        }
+
+        const isPassCorrect = bcrypt.compare(password, user.password)
+
+        if (!isPassCorrect) {
+            return res.status(404).json({ message: 'Incorrect password!' })
+        }
+
+        const token = jwt.sign({ email: user.email, id: user._id }, 'test', { expiresIn: '2h' })
+
+        res.status(200).json({ user, token })
+    } catch (error) {
+        res.status(500).json('Something went wrong')
+    }
+}
+
+const signUp = async (req, res) => {
+    const { email, password, confirmPassword, firstName, lastName } = req.body
+
+    try {
+        const existingUser = await User.findOne({ email })
+
+        if (existingUser) {
+            return res.status(400).json('User already exist')
+        }
+
+        if (!password === confirmPassword) {
+            return res.status(404).json({ message: 'Passwords must match' })
+        }
+
+        const hashedPass = await bcrypt.hash(password, 12)
+
+        const newUser = await User.create({ email, password: hashedPass, name: `${firstName} ${lastName}` })
+
+        const token = jwt.sign({ email: newUser.email, id: newUser._id }, 'test', { expiresIn: '2h' })
+
+        res.status(200).json({ newUser, token })
+    } catch (error) {
+        res.status(500).json('Something went wrong')
+    }
+}
+
+module.exports = {
+    signIn,
+    signUp
+}

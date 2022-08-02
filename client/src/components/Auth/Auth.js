@@ -14,18 +14,31 @@ const theme = createTheme()
 const Auth = () => {
     const [showPassword, setShowPassword] = useState(false)
     const [isSignup, setIsSignup] = useState(false)
+    const [userData, setUserData] = useState({
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
+        confirmPassword: ''
+    })
     const classes = useStyles(theme)
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
     const handleShowPassword = () => setShowPassword((showing) => !showing)
 
-    const handleSubmit = () => {
+    const handleSubmit = (e) => {
+        e.preventDefault()
 
+        if (isSignup) {
+
+        } else {
+
+        }
     }
 
-    const handleChange = () => {
-
+    const handleChange = (e) => {
+        setUserData({ ...userData, [e.target.name]: e.target.value })
     }
 
     const switchMode = () => setIsSignup((signup) => !signup)
@@ -37,8 +50,9 @@ const Auth = () => {
     }
 
     const googleFailedLogin = (error) => {
-        console.log(error);
-        console.log('Google Sign In was not successful. Try again later');
+        alert('Google Sign In was not successful. Try again later')
+
+        navigate('/')
     }
 
     return (
@@ -53,13 +67,13 @@ const Auth = () => {
                         {
                             isSignup && (
                                 <Fragment>
-                                    <Input name='firstName' label='First Name' onChange={handleChange} autoFocus half />
-                                    <Input name='lastName' label='Last Name' onChange={handleChange} half />
+                                    <Input name='firstName' label='First Name' handleChange={handleChange} autoFocus half />
+                                    <Input name='lastName' label='Last Name' handleChange={handleChange} half />
                                 </Fragment>
                             )
                         }
-                        <Input name='email' label='Email' onChange={handleChange} type='email' />
-                        <Input name='password' label='Password' onChange={handleChange} type={showPassword ? 'text' : 'password'} handleShowPassword={handleShowPassword} />
+                        <Input name='email' label='Email' handleChange={handleChange} type='email' />
+                        <Input name='password' label='Password' handleChange={handleChange} type={showPassword ? 'text' : 'password'} handleShowPassword={handleShowPassword} />
                         {
                             isSignup && <Input name='confirmPassword' label="Repeat Password" handleChange={handleChange} type='password'></Input>
                         }

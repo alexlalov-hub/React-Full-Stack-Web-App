@@ -25,9 +25,9 @@ const postSchema = mongoose.Schema({
         type: String,
         required: [true, 'Image required!']
     },
-    likeCount: {
-        type: Number,
-        default: 0
+    likes: {
+        type: [String],
+        default: []
     },
     createdAt: {
         type: Date,

@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { AppBar, Avatar, Button, Toolbar, Typography, } from '@mui/material'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import globe from '../../images/globe-flat.png'
 import useStyles from './styles'
 import { useDispatch, useSelector } from 'react-redux'
@@ -9,15 +9,20 @@ import { logOut } from '../../features/auth/authSlicer'
 
 const Navbar = () => {
     const classes = useStyles()
+    const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')))
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const user = useSelector(state => state.auth.user)
+    const location = useLocation()
 
     const logout = () => {
         dispatch(logOut())
 
         navigate('/')
     }
+
+    useEffect(() => {
+        setUser(JSON.parse(localStorage.getItem('user')))
+    }, [location])
 
     return (
         <AppBar className={classes.appBar} position='static' color='inherit' sx={{ flexDirection: 'row', display: 'flex' }}>

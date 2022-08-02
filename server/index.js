@@ -3,7 +3,8 @@ const express = require('express')
 
 const db = require('./config/database')
 const { port, dbConnection } = require('./config/config')
-const routes = require('./routes/posts')
+const postRoutes = require('./routes/posts')
+const authRoutes = require('./routes/auth')
 
 const app = express()
 
@@ -21,4 +22,5 @@ const start = async () => {
 
 start()
 
-app.use('/posts', routes)
+app.use('/posts', postRoutes)
+app.use('/auth', authRoutes)
