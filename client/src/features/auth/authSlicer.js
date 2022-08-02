@@ -30,12 +30,12 @@ export const authSlice = createSlice({
     },
     extraReducers: {
         [signingIn.fulfilled]: (state, { payload }) => {
-            localStorage.setItem('user', JSON.stringify(payload.token))
+            localStorage.setItem('user', JSON.stringify(payload))
 
             state.user = payload.user
         },
         [signingUp.fulfilled]: (state, { payload }) => {
-            localStorage.setItem('user', JSON.stringify(payload.token))
+            localStorage.setItem('user', JSON.stringify(payload))
 
             state.user = payload.newUser
         },

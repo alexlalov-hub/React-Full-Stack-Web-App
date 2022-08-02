@@ -29,8 +29,8 @@ const Navbar = () => {
             <Toolbar className={classes.toolbar}>
                 {user ? (
                     <div className={classes.profile}>
-                        <Avatar className={classes.purple} alt={user.given_name} src={user.picture}>{user.given_name.charAt(0)}</Avatar>
-                        <Typography className={classes.userName} variant='h6' color='primary'>{`${user.given_name} ${user.family_name}`}</Typography>
+                        <Avatar className={classes.purple} alt={user.given_name ? user.given_name : user.name} src={user.picture ? user.picture : null}>{user.given_name ? user.given_name.charAt(0) : user.name.charAt(0)}</Avatar>
+                        <Typography className={classes.userName} variant='h6' color='primary'>{user.given_name ? `${user.given_name} ${user.family_name}` : user.name}</Typography>
                         <Button variant='contained' className={classes.logout} color='secondary' onClick={logout}>Logout</Button>
                     </div>
                 ) : (
