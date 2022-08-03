@@ -4,6 +4,7 @@ import FileBase from 'react-file-base64'
 import useStyles from './styles'
 import { useDispatch, useSelector } from 'react-redux';
 import { postCreation, postUpdate } from '../../features/post/postSlicer';
+import { useLocation } from 'react-router';
 
 const theme = createTheme()
 
@@ -18,7 +19,12 @@ const Form = ({ currentId, setCurrentId }) => {
     const post = useSelector((state) => currentId ? state.posts.posts.find((post) => post._id === currentId) : null)
     const classes = useStyles(theme)
     const dispatch = useDispatch()
-    const user = JSON.parse(localStorage.getItem('user'))?.user
+    const location = useLocation()
+    const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')))
+
+    useEffect(() => {
+        setUser(JSON.parse(localStorage.getItem('user')))
+    }, [location])
 
     useEffect(() => {
         if (post !== null) {
@@ -29,7 +35,7 @@ const Form = ({ currentId, setCurrentId }) => {
     const onSubmit = (e) => {
         e.preventDefault()
 
-        const data = { ...postData, name: user?.name }
+        const data = { ...postData, name: user?.user?.name }
 
         if (validate()) {
             if (currentId) {
@@ -43,7 +49,6 @@ const Form = ({ currentId, setCurrentId }) => {
             }
         }
     }
-
 
     const clearFields = () => {
         setCurrentId(null)
@@ -67,7 +72,7 @@ const Form = ({ currentId, setCurrentId }) => {
         return Object.values(errorObject).every(x => x === '')
     }
 
-    if (!user) {
+    if (!user?.user?.name) {
         return (
             <Paper className={classes.paper}>
                 <Typography variant='h6' align='center'>

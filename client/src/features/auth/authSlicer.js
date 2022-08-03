@@ -42,9 +42,6 @@ export const authSlice = createSlice({
             localStorage.setItem('user', JSON.stringify(payload))
 
             state.user = payload.newUser
-        },
-        [signingUp.rejected]: (state, { payload }) => {
-            console.log(payload);
         }
     }
 })

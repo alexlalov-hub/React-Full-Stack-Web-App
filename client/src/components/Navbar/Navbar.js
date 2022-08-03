@@ -5,6 +5,7 @@ import globe from '../../images/globe-flat.png'
 import useStyles from './styles'
 import { useDispatch } from 'react-redux'
 import { logOut } from '../../features/auth/authSlicer'
+import jwtDecode from 'jwt-decode'
 
 
 const Navbar = () => {
@@ -14,15 +15,25 @@ const Navbar = () => {
     const location = useLocation()
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')))
 
-    useEffect(() => {
-        setUser(JSON.parse(localStorage.getItem('user')))
-    }, [location])
-
     const logout = () => {
         dispatch(logOut())
 
         navigate('/')
     }
+    useEffect(() => {
+        const token = user?.token
+
+        if (token) {
+            const decodedToken = jwtDecode(token)
+
+            if (decodedToken.exp * 1000 < new Date().getTime()) {
+                dispatch(logOut())
+            }
+        }
+
+        setUser(JSON.parse(localStorage.getItem('user')))
+    }, [location, user?.token])
+
 
     return (
         <AppBar className={classes.appBar} position='static' color='inherit' sx={{ flexDirection: 'row', display: 'flex' }}>
