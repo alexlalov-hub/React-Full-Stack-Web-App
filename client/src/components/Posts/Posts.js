@@ -14,7 +14,7 @@ const Posts = ({ currentId, setCurrentId }) => {
 
     useEffect(() => {
         dispatch(getPosts())
-    }, [currentId, dispatch])
+    }, [currentId])
 
     return (
         !posts.length ? <CircularProgress /> :

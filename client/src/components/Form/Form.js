@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import FileBase from 'react-file-base64'
 import useStyles from './styles'
 import { useDispatch, useSelector } from 'react-redux';
-import { postCreation, postUpdate } from '../../features/post/postSlicer';
+import { getPosts, postCreation, postUpdate } from '../../features/post/postSlicer';
 import { useLocation } from 'react-router';
 
 const theme = createTheme()
@@ -39,13 +39,15 @@ const Form = ({ currentId, setCurrentId }) => {
 
         if (validate()) {
             if (currentId) {
-                dispatch(postUpdate({ currentId, data }))
+                dispatch(postUpdate({ currentId, postData }))
                 setTimeout(() => {
                     clearFields();
                 }, 200)
+                dispatch(getPosts())
             } else {
                 dispatch(postCreation(data))
                 clearFields();
+                dispatch(getPosts())
             }
         }
     }

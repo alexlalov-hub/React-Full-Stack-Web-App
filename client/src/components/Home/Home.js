@@ -7,9 +7,11 @@ import useStyles from './styles'
 import Paginate from '../Pagination/Paginate'
 import Posts from '../Posts/Posts'
 import Form from '../Form/Form'
-import { ClassNames } from '@emotion/react'
+import { useDispatch } from 'react-redux'
+import { searchForPosts } from '../../features/post/postSlicer'
 
 function useQuery() {
+    console.log(useLocation());
     return new URLSearchParams(useLocation().search)
 }
 
@@ -17,6 +19,7 @@ const Home = () => {
     const [currentId, setCurrentId] = useState(null)
     const query = useQuery()
     const classes = useStyles()
+    const dispatch = useDispatch()
     const navigate = useNavigate()
     const page = query.get('page') || 1
     const searchQuery = query.get('searchQuery')
@@ -24,8 +27,8 @@ const Home = () => {
 
 
     const searchPost = () => {
-        if (search.trim()) {
-
+        if (search) {
+            dispatch(searchForPosts(search))
         } else {
             navigate('/')
         }
@@ -59,7 +62,7 @@ const Home = () => {
                         </AppBar>
                         <Form currentId={currentId} setCurrentId={setCurrentId} />
                         <Paper elevation={6}>
-                            <Paginate />
+                            <Paginate page={Number(page)} />
                         </Paper>
                     </Grid>
                 </Grid>

@@ -2,10 +2,33 @@ const { default: mongoose } = require('mongoose');
 const Post = require('../models/Post')
 
 const getPosts = async (req, res) => {
-    try {
-        const posts = await Post.find()
+    const { page } = req.query
 
-        res.status(200).json(posts)
+    try {
+        const limit = 4
+        const startIndex = (Number(page) - 1) * limit
+        const totalCountPosts = await Post.countDocuments({})
+
+        const posts = await Post.find()
+            .sort({ _id: -1 })
+            .limit(limit)
+            .skip(startIndex)
+
+        res.status(200).json({ posts, currentPage: Number(page), numberOfPages: Math.ceil(totalCountPosts / limit) })
+    } catch (error) {
+        res.status(404).json({ message: error.message })
+    }
+}
+
+const getPostsBySearch = async (req, res) => {
+    const { searchQuery } = req.query
+
+    try {
+        const title = new RegExp(searchQuery, 'i')
+
+        const foundPosts = await Post.find({ title })
+
+        res.status(200).json({ data: foundPosts })
     } catch (error) {
         res.status(404).json({ message: error.message })
     }
@@ -90,6 +113,7 @@ const likePost = async (req, res) => {
 
 module.exports = {
     getPosts,
+    getPostsBySearch,
     createPost,
     updatePost,
     deletePost,

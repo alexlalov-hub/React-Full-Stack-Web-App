@@ -1,9 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-import { fetchPosts, createPost, updatePost, deletePost, likePost } from "../../api";
+import { fetchPosts, createPost, updatePost, deletePost, likePost, getPostsBySearch } from "../../api";
 
-export const getPosts = createAsyncThunk('/post/getPosts', async () => {
-    return await fetchPosts()
+export const getPosts = createAsyncThunk('/post/getPosts', async (page) => {
+    return await fetchPosts(page)
+})
+
+export const searchForPosts = createAsyncThunk('/post/searchForPosts', async (search) => {
+    return await getPostsBySearch(search)
 })
 
 export const postUpdate = createAsyncThunk('/post/postUpdate', async (data) => {
@@ -24,6 +28,8 @@ export const postLiking = createAsyncThunk('/post/postLiking', async (id) => {
 
 const initialState = {
     posts: [],
+    currentPage: null,
+    numberOfPages: null
 }
 
 export const postsSlice = createSlice({
@@ -31,7 +37,9 @@ export const postsSlice = createSlice({
     initialState,
     extraReducers: {
         [getPosts.fulfilled]: (state, { payload }) => {
-            state.posts = payload
+            state.posts = payload.posts
+            state.currentPage = payload.currentPage
+            state.numberOfPages = payload.numberOfPages
         },
         [postCreation.fulfilled]: (state, { payload }) => {
             state.posts = [...state.posts, payload]
@@ -41,6 +49,9 @@ export const postsSlice = createSlice({
         },
         [postDeletion.fulfilled]: (state, { payload }) => {
             state.posts = state.posts.filter((post) => post._id !== payload._id)
+        },
+        [searchForPosts.fulfilled]: (state, { payload }) => {
+            state.posts = payload.data
         }
     }
 })

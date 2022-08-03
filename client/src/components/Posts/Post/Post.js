@@ -1,11 +1,11 @@
 import { useState, useEffect, Fragment } from 'react';
 import moment from 'moment'
-import { Button, Card, CardActions, CardContent, CardMedia, Typography } from '@mui/material';
+import { Button, ButtonBase, Card, CardActions, CardContent, CardMedia, Typography } from '@mui/material';
 import { MoreHoriz, ThumbUp, ThumbUpOutlined, Delete } from '@mui/icons-material';
 import useStyles from './styles'
 import { useDispatch } from 'react-redux';
-import { postDeletion, postLiking } from '../../../features/post/postSlicer';
-import { useLocation } from 'react-router';
+import { getPosts, postDeletion, postLiking } from '../../../features/post/postSlicer';
+import { useLocation, useNavigate } from 'react-router';
 
 const Post = ({
     post,
@@ -13,6 +13,7 @@ const Post = ({
 }) => {
     const classes = useStyles()
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const location = useLocation()
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')))
 
@@ -33,8 +34,13 @@ const Post = ({
         return <Fragment><ThumbUpOutlined fontSize="small" />&nbsp;Like</Fragment>;
     };
 
+    const openPost = () => navigate(`/posts/${post._id}`)
+
     return (
         <Card className={classes.card}>
+            <ButtonBase className={classes.cardAction} onClick={openPost}>
+
+            </ButtonBase>
             <CardMedia className={classes.media} image={post.selectedFile} title={post.title} />
 
             <div className={classes.overlay}>
@@ -65,7 +71,7 @@ const Post = ({
                     <Likes />
                 </Button>
                 {(user?.user?.sub === post?.creator || user?.user?._id === post?.creator) && (
-                    <Button size='small' color='primary' onClick={() => { dispatch(postDeletion(post._id)) }}>
+                    <Button size='small' color='primary' onClick={() => { dispatch(postDeletion(post._id)); dispatch(getPosts()) }}>
                         <Delete fontSize='small' />
                         Delete
                     </Button>

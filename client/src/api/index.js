@@ -1,7 +1,13 @@
 import requestHandler from './requestHandler'
 
-export const fetchPosts = async () => {
-    const { data } = await requestHandler.GET('/posts')
+export const fetchPosts = async (page) => {
+    const { data } = await requestHandler.GET(`/posts?page=${page || 1}`)
+
+    return data
+}
+
+export const getPostsBySearch = async (searchQuery) => {
+    const { data } = await requestHandler.GET(`/posts/search?searchQuery=${searchQuery || 'none'}`)
 
     return data
 }
@@ -14,7 +20,7 @@ export const createPost = async (newPost) => {
 
 export const updatePost = async (id, updatedPost) => {
     const { data } = await requestHandler.PATCH(`/posts/${id}`, updatedPost)
-
+    console.log(data);
     return data
 }
 
