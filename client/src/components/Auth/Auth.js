@@ -43,6 +43,7 @@ const Auth = () => {
     const switchMode = () => setIsSignup((signup) => !signup)
 
     const googleSuccessfulLogin = async (response) => {
+        console.log(response);
         dispatch(login(response.credential))
 
         navigate('/')

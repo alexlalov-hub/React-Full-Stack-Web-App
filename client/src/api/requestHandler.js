@@ -17,6 +17,10 @@ async function request(method, endpoint, body) {
             request.body = JSON.stringify(body);
         }
 
+        if (localStorage.getItem('user')) {
+            headers['Authorization'] = `Bearer ${JSON.parse(localStorage.getItem('user')).token}`
+        }
+
         const res = await fetch(url, request);
 
         let data;

@@ -3,7 +3,7 @@ import { AppBar, Avatar, Button, Toolbar, Typography, } from '@mui/material'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import globe from '../../images/globe-flat.png'
 import useStyles from './styles'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { logOut } from '../../features/auth/authSlicer'
 
 
@@ -12,7 +12,11 @@ const Navbar = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const location = useLocation()
-    const user = useSelector(state => state.auth.user)
+    const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')))
+
+    useEffect(() => {
+        setUser(JSON.parse(localStorage.getItem('user')))
+    }, [location])
 
     const logout = () => {
         dispatch(logOut())
@@ -29,8 +33,8 @@ const Navbar = () => {
             <Toolbar className={classes.toolbar}>
                 {user ? (
                     <div className={classes.profile}>
-                        <Avatar className={classes.purple} alt={user.given_name ? user.given_name : user.name} src={user.picture ? user.picture : null}>{user.given_name ? user.given_name.charAt(0) : user.name.charAt(0)}</Avatar>
-                        <Typography className={classes.userName} variant='h6' color='primary'>{user.given_name ? `${user.given_name} ${user.family_name}` : user.name}</Typography>
+                        <Avatar className={classes.purple} alt={user.user.given_name ? user.user.given_name : user.user.name} src={user.user.picture ? user.user.picture : null}>{user.user.given_name ? user.user.given_name.charAt(0) : user.user.name.charAt(0)}</Avatar>
+                        <Typography className={classes.userName} variant='h6' color='primary'>{user.user.given_name ? `${user.user.given_name} ${user.user.family_name}` : user.user.name}</Typography>
                         <Button variant='contained' className={classes.logout} color='secondary' onClick={logout}>Logout</Button>
                     </div>
                 ) : (

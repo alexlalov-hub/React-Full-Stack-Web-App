@@ -14,7 +14,7 @@ const getPosts = async (req, res) => {
 const createPost = async (req, res) => {
     const post = req.body
 
-    const newPost = new Post(post)
+    const newPost = new Post({ ...post, creator: req.userId, createdAt: new Date().toISOString() })
 
     try {
         await newPost.save()
@@ -72,7 +72,7 @@ const likePost = async (req, res) => {
 
         const post = await Post.findById(id)
 
-        const index = post.likes.finIndex((id) => id === String(req.userId))
+        const index = post.likes.findIndex((id) => id === String(req.userId))
 
         if (index === -1) {
             post.likes.push(req.userId)

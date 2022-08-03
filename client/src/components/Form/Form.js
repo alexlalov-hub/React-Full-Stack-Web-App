@@ -9,7 +9,6 @@ const theme = createTheme()
 
 const Form = ({ currentId, setCurrentId }) => {
     const [postData, setPostData] = useState({
-        creator: '',
         title: '',
         message: '',
         tags: '',
@@ -19,6 +18,7 @@ const Form = ({ currentId, setCurrentId }) => {
     const post = useSelector((state) => currentId ? state.posts.posts.find((post) => post._id === currentId) : null)
     const classes = useStyles(theme)
     const dispatch = useDispatch()
+    const user = JSON.parse(localStorage.getItem('user'))?.user
 
     useEffect(() => {
         if (post !== null) {
@@ -29,23 +29,25 @@ const Form = ({ currentId, setCurrentId }) => {
     const onSubmit = (e) => {
         e.preventDefault()
 
+        const data = { ...postData, name: user?.name }
+
         if (validate()) {
             if (currentId) {
-                dispatch(postUpdate({ currentId, postData }))
+                dispatch(postUpdate({ currentId, data }))
                 setTimeout(() => {
                     clearFields();
                 }, 200)
             } else {
-                dispatch(postCreation(postData))
+                dispatch(postCreation(data))
                 clearFields();
             }
         }
     }
 
+
     const clearFields = () => {
         setCurrentId(null)
         setPostData({
-            creator: '',
             title: '',
             message: '',
             tags: '',
@@ -55,7 +57,6 @@ const Form = ({ currentId, setCurrentId }) => {
 
     const validate = () => {
         let errorObject = {}
-        errorObject.creator = postData.creator.length > 2 && postData.creator.length < 20 ? "" : "Creator must be between 3 and 20 characters."
         errorObject.title = postData.title.length > 2 && postData.title.length < 20 ? "" : "Title must be between 3 and 20 characters."
         errorObject.message = postData.message ? "" : "Message is required."
         errorObject.tags = !postData.tags.includes('') ? "" : "Tag/tags is/are required."
@@ -66,14 +67,20 @@ const Form = ({ currentId, setCurrentId }) => {
         return Object.values(errorObject).every(x => x === '')
     }
 
+    if (!user) {
+        return (
+            <Paper className={classes.paper}>
+                <Typography variant='h6' align='center'>
+                    Please Sign In to create your own destination or like others
+                </Typography>
+            </Paper>
+        )
+    }
+
     return (
         <Paper className={classes.paper}>
             <form autoComplete='off' className={`${classes.root} ${classes.form}`} onSubmit={onSubmit}>
                 <Typography variant='h6'>Creating a destination</Typography>
-
-                <TextField value={postData.creator} onChange={(e) => {
-                    setPostData({ ...postData, creator: e.target.value })
-                }} variant='outlined' label='Creator' fullWidth error={errors.creator ? true : false} helperText={errors.creator} />
 
                 <TextField value={postData.title} onChange={(e) => {
                     setPostData({ ...postData, title: e.target.value })

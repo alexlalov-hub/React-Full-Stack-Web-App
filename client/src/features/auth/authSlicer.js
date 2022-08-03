@@ -18,9 +18,13 @@ export const authSlice = createSlice({
     initialState,
     reducers: {
         login(state, { payload }) {
-            localStorage.setItem('user', JSON.stringify(payload.token))
+            const sentData = {
+                user: jwtDecode(payload),
+                token: payload
+            }
+            localStorage.setItem('user', JSON.stringify(sentData))
 
-            state.user = payload.user
+            state.user = sentData.user
         },
         logOut(state, action) {
             localStorage.clear()

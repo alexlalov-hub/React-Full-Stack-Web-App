@@ -11,15 +11,17 @@ const postSchema = mongoose.Schema({
         type: String,
         required: [true, 'Message required!']
     },
+    name: {
+        type: String,
+        required: [true, 'Name is required!']
+    },
     creator: {
         type: String,
-        required: [true, 'Creator required!'],
-        minLength: [3, 'The creator must be at least 3 characters long'],
-        maxLength: [20, 'The creator must not be longer than 20 characters']
+        required: [true, 'Creator required!']
     },
     tags: [{
         type: String,
-        required: [true, 'Tags are required']
+        required: [true, 'Tags are required!']
     }],
     selectedFile: {
         type: String,
