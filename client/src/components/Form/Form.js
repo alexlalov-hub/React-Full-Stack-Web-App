@@ -95,14 +95,14 @@ const Form = ({ currentId, setCurrentId }) => {
 
                 <TextField value={postData.message} onChange={(e) => {
                     setPostData({ ...postData, message: e.target.value })
-                }} variant='outlined' label='Message' fullWidth error={errors.message ? true : false} helperText={errors.message} />
+                }} variant='outlined' label='Message' fullWidth error={errors.message ? true : false} helperText={errors.message} multiline rows={4} />
 
                 <TextField value={postData.tags} onChange={(e) => {
                     setPostData({ ...postData, tags: e.target.value.split(',') })
                 }} variant='outlined' label='Tags (separated by commas)' fullWidth error={errors.tags ? true : false} helperText={errors.tags} />
 
                 <div className={classes.fileInput}>
-                    <FileBase type='file' multiple={false} onDone={({ base64 }) => { setPostData({ ...postData, selectedFile: base64 }); base64 = null }} />
+                    <FileBase type='file' multiple={false} onDone={({ base64 }) => { setPostData({ ...postData, selectedFile: base64 }) }} />
                 </div>
                 {errors.selectedFile && <Typography variant='h12' fontFamily='Roboto' fontSize={13} color='error'>{errors.selectedFile}</Typography>}
 
