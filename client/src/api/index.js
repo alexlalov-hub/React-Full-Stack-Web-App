@@ -6,6 +6,12 @@ export const fetchPosts = async (page) => {
     return data
 }
 
+export const fetchPost = async (id) => {
+    const { data } = await requestHandler.GET(`/posts/${id}`)
+
+    return data
+}
+
 export const getPostsBySearch = async (searchQuery) => {
     const { data } = await requestHandler.GET(`/posts/search?searchQuery=${searchQuery || 'none'}`)
 
@@ -38,15 +44,24 @@ export const likePost = async (id) => {
 
 export const signIn = async (userData, navigate) => {
     const { data } = await requestHandler.POST('/auth/signIn', userData)
-
-    navigate('/')
-    return data
+    if (data.message === 'User not found!') {
+        navigate('/auth')
+        return data
+    } else {
+        navigate('/')
+        return data
+    }
 }
 
 export const signUp = async (userData, navigate) => {
     const { data } = await requestHandler.POST('/auth/signUp', userData)
+    if (data.message === 'User already exist') {
+        navigate('/auth')
+        return data
+    } else {
+        navigate('/')
+        return data
+    }
 
-    navigate('/')
-    return data
 }
 

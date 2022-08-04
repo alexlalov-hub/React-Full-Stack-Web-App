@@ -11,7 +11,6 @@ import { useDispatch } from 'react-redux'
 import { searchForPosts } from '../../features/post/postSlicer'
 
 function useQuery() {
-    console.log(useLocation());
     return new URLSearchParams(useLocation().search)
 }
 
@@ -22,7 +21,6 @@ const Home = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const page = query.get('page') || 1
-    const searchQuery = query.get('searchQuery')
     const [search, setSearch] = useState('')
 
 

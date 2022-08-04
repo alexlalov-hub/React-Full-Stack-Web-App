@@ -5,12 +5,14 @@ export default makeStyles((theme) => ({
         borderRadius: '20px',
         objectFit: 'cover',
         width: '100%',
-        maxHeight: '600px',
-
+        maxHeight: '400px',
     },
     card: {
+        borderRadius: '20px',
         display: 'flex',
         width: '100%',
+        backgroundColor: 'white',
+        paddingLeft: '20px',
         [theme.breakpoints.down('sm')]: {
             flexWrap: 'wrap',
             flexDirection: 'column',
@@ -22,7 +24,7 @@ export default makeStyles((theme) => ({
         flex: 1,
     },
     imageSection: {
-        marginLeft: '20px',
+        margin: '20px 20px 20px 20px',
         [theme.breakpoints.down('sm')]: {
             marginLeft: 0,
         },

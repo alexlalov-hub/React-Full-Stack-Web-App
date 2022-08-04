@@ -11,6 +11,7 @@ export const signingUp = createAsyncThunk('/auth/signingUp', async (data) => {
 
 const initialState = {
     user: null,
+    userError: null
 }
 
 export const authSlice = createSlice({
@@ -34,14 +35,23 @@ export const authSlice = createSlice({
     },
     extraReducers: {
         [signingIn.fulfilled]: (state, { payload }) => {
-            localStorage.setItem('user', JSON.stringify(payload))
+            if (payload?.message === 'User not found!') {
+                state.userError = 'User not found!'
+            } else {
+                localStorage.setItem('user', JSON.stringify(payload))
 
-            state.user = payload.user
+                state.user = payload.user
+            }
+
         },
         [signingUp.fulfilled]: (state, { payload }) => {
-            localStorage.setItem('user', JSON.stringify(payload))
+            if (payload?.message === 'User already exist') {
+                state.userError = 'User already exist!'
+            } else {
+                localStorage.setItem('user', JSON.stringify(payload))
 
-            state.user = payload.newUser
+                state.user = payload.newUser
+            }
         }
     }
 })

@@ -6,12 +6,14 @@ import { useNavigate } from 'react-router';
 
 import useStyles from './styles'
 import Input from './Inputs/Input'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { login, signingIn, signingUp } from '../../features/auth/authSlicer';
 
 const theme = createTheme()
 
 const Auth = () => {
+    const userError = useSelector(state => state.auth.userError)
+    const [errors, setErrors] = useState({})
     const [showPassword, setShowPassword] = useState(false)
     const [isSignup, setIsSignup] = useState(false)
     const [userData, setUserData] = useState({
@@ -27,12 +29,39 @@ const Auth = () => {
 
     const handleShowPassword = () => setShowPassword((showing) => !showing)
 
+    const validate = () => {
+        const emailRegex = /^[A-Za-z0-9_\.]+@[A-Za-z]+\.[A-Za-z]{2,3}$/g
+        let errorObject = {}
+
+        if (isSignup) {
+            errorObject.firstName = userData.firstName ? "" : "First name is required"
+            errorObject.lastName = userData.lastName ? "" : "last name is required."
+            errorObject.confirmPassword = userData.confirmPassword ? "" : "Confirmation password is required"
+            errorObject.noMatch = userData.password === userData.confirmPassword ? "" : "Passwords must match"
+        } else {
+            errorObject.email = emailRegex.test(userData.email) ? "" : "Email is required"
+            errorObject.password = userData.password ? "" : "Password is required"
+        }
+
+        setErrors({ ...errorObject })
+
+        return Object.values(errorObject).every(x => x === '')
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault()
-        if (isSignup) {
-            dispatch(signingUp({ userData, navigate }))
-        } else {
-            dispatch(signingIn({ userData, navigate }))
+        if (validate()) {
+            if (isSignup) {
+                dispatch(signingUp({ userData, navigate }))
+                if (userError === 'User already exist') {
+                    alert('User already exist')
+                }
+            } else {
+                dispatch(signingIn({ userData, navigate }))
+                if (userError === 'User not found!') {
+                    alert('User not found!')
+                }
+            }
         }
     }
 
@@ -48,7 +77,7 @@ const Auth = () => {
         navigate('/')
     }
 
-    const googleFailedLogin = (error) => {
+    const googleFailedLogin = () => {
         alert('Google Sign In was not successful. Try again later')
 
         navigate('/')
@@ -66,15 +95,15 @@ const Auth = () => {
                         {
                             isSignup && (
                                 <Fragment>
-                                    <Input name='firstName' label='First Name' handleChange={handleChange} autoFocus half />
-                                    <Input name='lastName' label='Last Name' handleChange={handleChange} half />
+                                    <Input name='firstName' label='First Name' error={errors.firstName} handleChange={handleChange} autoFocus half />
+                                    <Input name='lastName' label='Last Name' error={errors.lastName} handleChange={handleChange} half />
                                 </Fragment>
                             )
                         }
-                        <Input name='email' label='Email' handleChange={handleChange} type='email' />
-                        <Input name='password' label='Password' handleChange={handleChange} type={showPassword ? 'text' : 'password'} handleShowPassword={handleShowPassword} />
+                        <Input name='email' label='Email' error={errors.email} handleChange={handleChange} type='email' />
+                        <Input name='password' label='Password' error={errors.password || errors.noMatch} handleChange={handleChange} type={showPassword ? 'text' : 'password'} handleShowPassword={handleShowPassword} />
                         {
-                            isSignup && <Input name='confirmPassword' label="Repeat Password" handleChange={handleChange} type='password'></Input>
+                            isSignup && <Input name='confirmPassword' label="Repeat Password" error={errors.confirmPassword || errors.noMatch} handleChange={handleChange} type='password'></Input>
                         }
                     </Grid>
                     <Button type='submit' fullWidth variant='contained' color='primary' sx={{ marginBottom: '16px', marginTop: '16px' }}>

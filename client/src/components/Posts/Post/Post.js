@@ -1,7 +1,7 @@
 import { useState, useEffect, Fragment } from 'react';
 import moment from 'moment'
 import { Button, ButtonBase, Card, CardActions, CardContent, CardMedia, Typography } from '@mui/material';
-import { MoreHoriz, ThumbUp, ThumbUpOutlined, Delete } from '@mui/icons-material';
+import { MoreHoriz, ThumbUp, ThumbUpOutlined, Delete, Search } from '@mui/icons-material';
 import useStyles from './styles'
 import { useDispatch } from 'react-redux';
 import { getPosts, postDeletion, postLiking } from '../../../features/post/postSlicer';
@@ -38,9 +38,6 @@ const Post = ({
 
     return (
         <Card className={classes.card}>
-            <ButtonBase className={classes.cardAction} onClick={openPost}>
-
-            </ButtonBase>
             <CardMedia className={classes.media} image={post.selectedFile} title={post.title} />
 
             <div className={classes.overlay}>
@@ -70,6 +67,12 @@ const Post = ({
                 <Button size='small' color='primary' disabled={!user?.user} onClick={() => { dispatch(postLiking(post._id)) }}>
                     <Likes />
                 </Button>
+
+                <Button size='small' color='primary' onClick={openPost}>
+                    <Search fontSize='small' />
+                    Details
+                </Button>
+
                 {(user?.user?.sub === post?.creator || user?.user?._id === post?.creator) && (
                     <Button size='small' color='primary' onClick={() => { dispatch(postDeletion(post._id)); dispatch(getPosts()) }}>
                         <Delete fontSize='small' />

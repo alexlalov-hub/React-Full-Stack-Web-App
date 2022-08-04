@@ -1,9 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-import { fetchPosts, createPost, updatePost, deletePost, likePost, getPostsBySearch } from "../../api";
+import { fetchPosts, createPost, updatePost, deletePost, likePost, getPostsBySearch, fetchPost } from "../../api";
 
 export const getPosts = createAsyncThunk('/post/getPosts', async (page) => {
     return await fetchPosts(page)
+})
+
+export const getPost = createAsyncThunk('/post/getPost', async (id) => {
+    return await fetchPost(id)
 })
 
 export const searchForPosts = createAsyncThunk('/post/searchForPosts', async (search) => {
@@ -28,8 +32,9 @@ export const postLiking = createAsyncThunk('/post/postLiking', async (id) => {
 
 const initialState = {
     posts: [],
-    currentPage: null,
-    numberOfPages: null
+    currentPage: 1,
+    numberOfPages: 1,
+    post: {}
 }
 
 export const postsSlice = createSlice({
@@ -40,6 +45,9 @@ export const postsSlice = createSlice({
             state.posts = payload.posts
             state.currentPage = payload.currentPage
             state.numberOfPages = payload.numberOfPages
+        },
+        [getPost.fulfilled]: (state, { payload }) => {
+            state.post = payload
         },
         [postCreation.fulfilled]: (state, { payload }) => {
             state.posts = [...state.posts, payload]
