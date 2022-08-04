@@ -38,6 +38,8 @@ const Auth = () => {
             errorObject.lastName = userData.lastName ? "" : "last name is required."
             errorObject.confirmPassword = userData.confirmPassword ? "" : "Confirmation password is required"
             errorObject.noMatch = userData.password === userData.confirmPassword ? "" : "Passwords must match"
+            errorObject.email = emailRegex.test(userData.email) ? "" : "Email is required"
+            errorObject.password = userData.password ? "" : "Password is required"
         } else {
             errorObject.email = emailRegex.test(userData.email) ? "" : "Email is required"
             errorObject.password = userData.password ? "" : "Password is required"
