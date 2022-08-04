@@ -26,7 +26,7 @@ export const createPost = async (newPost) => {
 
 export const updatePost = async (id, updatedPost) => {
     const { data } = await requestHandler.PATCH(`/posts/${id}`, updatedPost)
-    console.log(data);
+
     return data
 }
 

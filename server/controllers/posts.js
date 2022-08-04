@@ -24,6 +24,10 @@ const getPost = async (req, res) => {
     const { id } = req.params
 
     try {
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(404).json({ message: 'No post with that id found' })
+        }
+
         const post = await Post.findById(id)
 
         res.status(200).json(post)
@@ -66,7 +70,7 @@ const updatePost = async (req, res) => {
 
     try {
         if (!mongoose.Types.ObjectId.isValid(_id)) {
-            res.status(404).send('No post with that id found')
+            return res.status(404).json({ message: 'No post with that id found' })
         }
         const updatedPost = await Post.findByIdAndUpdate(_id, { ...post, _id }, { new: true })
 
@@ -82,7 +86,7 @@ const deletePost = async (req, res) => {
 
     try {
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            res.status(404).send('No post with that id found')
+            return res.status(404).json({ message: 'No post with that id found' })
         }
 
         const deletedPost = await Post.findByIdAndDelete(id)
@@ -102,7 +106,7 @@ const likePost = async (req, res) => {
         }
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            res.status(404).send('No post with that id found')
+            return res.status(404).json({ message: 'No post with that id found' })
         }
 
         const post = await Post.findById(id)

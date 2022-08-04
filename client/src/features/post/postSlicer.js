@@ -34,7 +34,8 @@ const initialState = {
     posts: [],
     currentPage: 1,
     numberOfPages: 1,
-    post: {}
+    post: {},
+    postError: ''
 }
 
 export const postsSlice = createSlice({
@@ -47,7 +48,11 @@ export const postsSlice = createSlice({
             state.numberOfPages = payload.numberOfPages
         },
         [getPost.fulfilled]: (state, { payload }) => {
-            state.post = payload
+            if (payload.message) {
+                state.postError = payload.message
+            } else {
+                state.post = payload
+            }
         },
         [postCreation.fulfilled]: (state, { payload }) => {
             state.posts = [...state.posts, payload]

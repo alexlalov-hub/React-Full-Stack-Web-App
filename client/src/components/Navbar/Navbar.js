@@ -3,7 +3,7 @@ import { AppBar, Avatar, Button, Toolbar, Typography, } from '@mui/material'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import globe from '../../images/globe-flat.png'
 import useStyles from './styles'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { logOut } from '../../features/auth/authSlicer'
 import jwtDecode from 'jwt-decode'
 
