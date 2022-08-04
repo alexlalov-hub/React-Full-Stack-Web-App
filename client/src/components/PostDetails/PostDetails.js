@@ -10,8 +10,6 @@ import { getPost } from '../../features/post/postSlicer'
 const PostDetails = () => {
     const classes = useStyles()
     const post = useSelector(state => state.posts.post)
-    const postError = useSelector(state => state.posts.postError)
-    const navigate = useNavigate()
     const dispatch = useDispatch()
     const { id } = useParams()
 
