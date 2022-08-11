@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { Avatar, Button, Container, createTheme, Grid, Paper, Typography } from '@mui/material'
 import { LockOutlined } from '@mui/icons-material'
 import { GoogleLogin } from '@react-oauth/google';
@@ -50,19 +50,19 @@ const Auth = () => {
         return Object.values(errorObject).every(x => x === '')
     }
 
+    useEffect(() => {
+        if (userError) {
+            alert(userError)
+        }
+    }, [userError])
+
     const handleSubmit = (e) => {
         e.preventDefault()
         if (validate()) {
             if (isSignup) {
                 dispatch(signingUp({ userData, navigate }))
-                if (userError) {
-                    alert(userError)
-                }
             } else {
                 dispatch(signingIn({ userData, navigate }))
-                if (userError) {
-                    alert(userError)
-                }
             }
         }
     }
