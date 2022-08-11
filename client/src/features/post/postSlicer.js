@@ -48,7 +48,7 @@ export const postsSlice = createSlice({
             state.numberOfPages = payload.numberOfPages
         },
         [getPost.fulfilled]: (state, { payload }) => {
-            if (payload.message) {
+            if (payload.message === 'No post with that id found') {
                 state.postError = payload.message
             } else {
                 state.post = payload

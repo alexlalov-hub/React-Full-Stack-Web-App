@@ -27,10 +27,12 @@ const postSchema = mongoose.Schema({
         type: String,
         required: [true, 'Image required!']
     },
-    likes: {
-        type: [String],
-        default: []
-    },
+    likes: [{
+        type: String,
+    }],
+    comments: [{
+        type: String,
+    }],
     createdAt: {
         type: Date,
         default: new Date()
