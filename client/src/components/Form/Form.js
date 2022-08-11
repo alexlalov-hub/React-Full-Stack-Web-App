@@ -43,11 +43,9 @@ const Form = ({ currentId, setCurrentId }) => {
                 setTimeout(() => {
                     clearFields();
                 }, 200)
-                dispatch(getPosts())
             } else {
                 dispatch(postCreation(data))
                 clearFields();
-                dispatch(getPosts())
             }
         }
     }

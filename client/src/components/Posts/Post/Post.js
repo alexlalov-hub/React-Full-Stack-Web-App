@@ -74,7 +74,7 @@ const Post = ({
                 </Button>
 
                 {(user?.user?.sub === post?.creator || user?.user?._id === post?.creator) && (
-                    <Button size='small' color='primary' onClick={() => { dispatch(postDeletion(post._id)); dispatch(getPosts()) }}>
+                    <Button size='small' color='primary' onClick={() => { dispatch(postDeletion(post._id)) }}>
                         <Delete fontSize='small' />
                         Delete
                     </Button>

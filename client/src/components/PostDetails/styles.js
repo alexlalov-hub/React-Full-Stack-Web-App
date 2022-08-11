@@ -4,8 +4,8 @@ export default makeStyles((theme) => ({
     media: {
         borderRadius: '20px',
         objectFit: 'cover',
-        width: '100%',
-        maxHeight: '400px',
+        maxHeight: '500px',
+        maxWidth: '1000px'
     },
     card: {
         borderRadius: '20px',
@@ -36,6 +36,19 @@ export default makeStyles((theme) => ({
         },
     },
     loadingPaper: {
-        display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '20px', borderRadius: '15px', height: '39vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: '20px',
+        borderRadius: '15px',
+        height: '39vh',
     },
+    commentsOuterContainer: {
+        display: 'flex',
+        justifyContent: 'space-between'
+    },
+    commentInnerContainer: {
+        height: '200px',
+        overflowY: 'auto',
+    }
 }));

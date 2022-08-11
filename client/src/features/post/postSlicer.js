@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-import { fetchPosts, createPost, updatePost, deletePost, likePost, getPostsBySearch, fetchPost } from "../../api";
+import { fetchPosts, createPost, updatePost, deletePost, likePost, getPostsBySearch, fetchPost, commentPost } from "../../api";
 
 export const getPosts = createAsyncThunk('/post/getPosts', async (page) => {
     return await fetchPosts(page)
@@ -28,6 +28,10 @@ export const postDeletion = createAsyncThunk('/post/postDeletion', async (id) =>
 
 export const postLiking = createAsyncThunk('/post/postLiking', async (id) => {
     return await likePost(id)
+})
+
+export const postCommenting = createAsyncThunk('/post/postCommenting', async (data) => {
+    return await commentPost(data.comment, data.id)
 })
 
 const initialState = {
@@ -60,10 +64,14 @@ export const postsSlice = createSlice({
         [postUpdate.fulfilled && postLiking.fulfilled]: (state, { payload }) => {
             state.posts = state.posts.map((post) => post._id === payload._id ? payload : post)
         },
+        [postCommenting.fulfilled]: (state, { payload }) => {
+            state.posts = state.posts.map((post) => post._id === payload._id ? payload : post)
+        },
         [postDeletion.fulfilled]: (state, { payload }) => {
             state.posts = state.posts.filter((post) => post._id !== payload._id)
         },
         [searchForPosts.fulfilled]: (state, { payload }) => {
+            console.log(payload);
             state.posts = payload.data
         }
     }

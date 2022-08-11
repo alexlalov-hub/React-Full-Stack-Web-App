@@ -67,7 +67,6 @@ const createPost = async (req, res) => {
 const updatePost = async (req, res) => {
     const { id: _id } = req.params
     const post = req.body
-
     try {
         if (!mongoose.Types.ObjectId.isValid(_id)) {
             return res.status(404).json({ message: 'No post with that id found' })
@@ -99,6 +98,7 @@ const deletePost = async (req, res) => {
 
 const likePost = async (req, res) => {
     const { id } = req.params
+
 
     try {
         if (!req.userId) {

@@ -6,6 +6,7 @@ import useStyles from './styles'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router'
 import { getPost } from '../../features/post/postSlicer'
+import Comments from './Comments/Comments'
 
 const PostDetails = () => {
     const classes = useStyles()
@@ -28,7 +29,7 @@ const PostDetails = () => {
                 <Divider sx={{ margin: '20px 0' }} />
                 <Typography variant="body1"><strong>Realtime Chat - coming soon!</strong></Typography>
                 <Divider sx={{ margin: '20px 0' }} />
-                <Typography variant="body1"><strong>Comments - coming soon!</strong></Typography>
+                <Comments post={post} />
                 <Divider sx={{ margin: '20px 0' }} />
             </div>
             <div className={classes.imageSection}>
