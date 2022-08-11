@@ -55,13 +55,13 @@ const Auth = () => {
         if (validate()) {
             if (isSignup) {
                 dispatch(signingUp({ userData, navigate }))
-                if (userError === 'User already exist') {
-                    alert('User already exist')
+                if (userError) {
+                    alert(userError)
                 }
             } else {
                 dispatch(signingIn({ userData, navigate }))
-                if (userError === 'User not found!') {
-                    alert('User not found!')
+                if (userError) {
+                    alert(userError)
                 }
             }
         }

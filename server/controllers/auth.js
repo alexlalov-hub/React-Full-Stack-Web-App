@@ -13,7 +13,7 @@ const signIn = async (req, res) => {
             return res.status(404).json({ message: 'User not found!' })
         }
 
-        const isPassCorrect = bcrypt.compare(password, user.password)
+        const isPassCorrect = await bcrypt.compare(password, user.password)
 
         if (!isPassCorrect) {
             return res.status(404).json({ message: 'Incorrect password!' })

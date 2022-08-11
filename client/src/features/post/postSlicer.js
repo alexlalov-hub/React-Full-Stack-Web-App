@@ -66,12 +66,12 @@ export const postsSlice = createSlice({
         },
         [postCommenting.fulfilled]: (state, { payload }) => {
             state.posts = state.posts.map((post) => post._id === payload._id ? payload : post)
+            state.post.comments = payload.comments
         },
         [postDeletion.fulfilled]: (state, { payload }) => {
             state.posts = state.posts.filter((post) => post._id !== payload._id)
         },
         [searchForPosts.fulfilled]: (state, { payload }) => {
-            console.log(payload);
             state.posts = payload.data
         }
     }

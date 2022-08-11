@@ -48,7 +48,7 @@ export default makeStyles((theme) => ({
         justifyContent: 'space-between'
     },
     commentInnerContainer: {
-        height: '200px',
+        maxHeight: '200px',
         overflowY: 'auto',
     }
 }));

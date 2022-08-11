@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, TextField, Typography } from '@mui/material'
 
 import useStyles from '../styles'
@@ -7,23 +7,30 @@ import { postCommenting } from '../../../features/post/postSlicer'
 
 const Comments = ({ post }) => {
     const classes = useStyles()
-    const [comments, setComments] = useState(post.comments)
+    const [comments, setComments] = useState(post.comments || [])
     const [currentComment, setCurrentComment] = useState('')
     const user = JSON.parse(localStorage.getItem('user'))
     const dispatch = useDispatch()
 
-    const handleClick = () => {
+    const handleClick = async () => {
         const comment = `${user?.user?.name ? user.user.name : `${user.user.given_name} ${user.user.family_name}`}: ${currentComment}`
 
-        dispatch(postCommenting(comment, post._id))
+        dispatch(postCommenting({ comment, id: post._id }))
+
+        setComments(post.comments)
+        setCurrentComment('')
     }
+
+    useEffect(() => {
+        setComments(post.comments)
+    }, [post])
 
     return (
         <div className={classes.commentsOuterContainer}>
-            <div className={classes.commentsInnerContainer}>
-                {comments.map((c, i) => (
+            <div className={classes.commentsInnerContainer} style={{ maxHeight: '200px', overflowY: 'auto', width: '200px' }}>
+                {comments?.map((comment, i) => (
                     <Typography key={i} gutterBottom variant='subtitle1'>
-                        Comment {i}
+                        {comment}
                     </Typography>
                 ))}
             </div>

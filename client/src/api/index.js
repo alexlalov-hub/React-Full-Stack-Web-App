@@ -18,8 +18,6 @@ export const fetchPost = async (id) => {
     return data
 }
 
-
-
 export const createPost = async (newPost) => {
     const { data } = await requestHandler.POST('/posts', newPost)
 
@@ -52,7 +50,7 @@ export const commentPost = async (comment, id) => {
 
 export const signIn = async (userData, navigate) => {
     const { data } = await requestHandler.POST('/auth/signIn', userData)
-    if (data.message === 'User not found!') {
+    if (data.message === 'User not found!' || data.message === 'Incorrect password!') {
         navigate('/auth')
         return data
     } else {

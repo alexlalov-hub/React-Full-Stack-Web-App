@@ -27,8 +27,6 @@ const PostDetails = () => {
                 <Typography variant="h6">Created by: {post.name}</Typography>
                 <Typography variant="body1">{moment(post.createdAt).fromNow()}</Typography>
                 <Divider sx={{ margin: '20px 0' }} />
-                <Typography variant="body1"><strong>Realtime Chat - coming soon!</strong></Typography>
-                <Divider sx={{ margin: '20px 0' }} />
                 <Comments post={post} />
                 <Divider sx={{ margin: '20px 0' }} />
             </div>

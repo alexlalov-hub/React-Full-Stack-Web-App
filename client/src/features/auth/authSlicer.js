@@ -35,10 +35,12 @@ export const authSlice = createSlice({
     },
     extraReducers: {
         [signingIn.fulfilled]: (state, { payload }) => {
-            if (payload?.message === 'User not found!') {
-                state.userError = 'User not found!'
+            if (payload?.message === 'User not found!' || payload?.message === 'Incorrect password!') {
+                state.userError = payload.message
             } else {
                 localStorage.setItem('user', JSON.stringify(payload))
+
+                state.userError = ''
 
                 state.user = payload.user
             }
@@ -49,6 +51,8 @@ export const authSlice = createSlice({
                 state.userError = 'User already exist!'
             } else {
                 localStorage.setItem('user', JSON.stringify(payload))
+
+                state.userError = ''
 
                 state.user = payload.newUser
             }
