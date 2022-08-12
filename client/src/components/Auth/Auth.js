@@ -58,6 +58,7 @@ const Auth = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
+
         if (validate()) {
             if (isSignup) {
                 dispatch(signingUp({ userData, navigate }))

@@ -27,15 +27,15 @@ const Comments = ({ post }) => {
 
     return (
         <div className={classes.commentsOuterContainer}>
-            <div className={classes.commentsInnerContainer} style={{ maxHeight: '200px', overflowY: 'auto', width: '200px' }}>
+            <div className={classes.commentsInnerContainer} style={{ maxHeight: '200px', overflowY: 'auto', width: '600px' }}>
                 {comments?.map((comment, i) => (
                     <Typography key={i} gutterBottom variant='subtitle1'>
-                        {comment}
+                        <strong>{comment.split(': ')[0]}</strong> &nbsp;{comment.split(': ')[1]}
                     </Typography>
                 ))}
             </div>
             {user && (
-                <div style={{ width: '60%' }}>
+                <div style={{ width: '50%' }}>
                     <Typography gutterBottom variant='h6'>
                         Write a comment
                     </Typography>

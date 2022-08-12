@@ -40,8 +40,8 @@ const Home = () => {
 
     return (
         <Grow in>
-            <Container maxWidth='xl'>
-                <Grid className={classes.gridContainer} container justifyContent="space-between" alignItems="stretch" spacing={3} >
+            <Container maxWidth={false}>
+                <Grid className={classes.gridContainer} container justifyContent="space-between" alignItems="stretch" spacing={4} >
                     <Grid item xs={12} sm={6} md={9}>
                         <Posts currentId={currentId} setCurrentId={setCurrentId} />
                     </Grid>

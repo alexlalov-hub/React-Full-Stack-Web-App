@@ -61,7 +61,7 @@ export const signIn = async (userData, navigate) => {
 
 export const signUp = async (userData, navigate) => {
     const { data } = await requestHandler.POST('/auth/signUp', userData)
-    if (data.message === 'User already exist') {
+    if (data.message === 'User already exists') {
         navigate('/auth')
         return data
     } else {

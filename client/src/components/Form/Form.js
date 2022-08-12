@@ -83,7 +83,7 @@ const Form = ({ currentId, setCurrentId }) => {
     }
 
     return (
-        <Paper className={classes.paper}>
+        <Paper className={classes.paper} >
             <form autoComplete='off' className={`${classes.root} ${classes.form}`} onSubmit={onSubmit}>
                 <Typography variant='h6'>Creating a destination</Typography>
 

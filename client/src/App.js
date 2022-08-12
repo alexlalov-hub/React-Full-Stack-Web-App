@@ -22,7 +22,7 @@ function App() {
         <ThemeProvider theme={theme}>
             <GoogleOAuthProvider clientId='217616907290-r6vfns4dgccria3iddk3i56d0a2tkkgo.apps.googleusercontent.com'>
                 <BrowserRouter>
-                    <Container maxWidth="xl" >
+                    <Container maxWidth={false} >
                         <Navbar />
                         <Routes>
                             <Route path='/' element={<Navigate replace to='/posts' />} />

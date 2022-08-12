@@ -47,10 +47,14 @@ export const authSlice = createSlice({
 
         },
         [signingUp.fulfilled]: (state, { payload }) => {
-            if (payload?.message === 'User already exist') {
-                state.userError = 'User already exist!'
+            if (payload?.message === 'User already exists') {
+                state.userError = 'User already exists!'
             } else {
-                localStorage.setItem('user', JSON.stringify(payload))
+                const userData = {
+                    user: payload.newUser,
+                    token: payload.token
+                }
+                localStorage.setItem('user', JSON.stringify(userData))
 
                 state.userError = ''
 

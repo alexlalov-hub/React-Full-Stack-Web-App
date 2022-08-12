@@ -3,9 +3,9 @@ import { makeStyles } from '@mui/styles';
 export default makeStyles((theme) => ({
     media: {
         borderRadius: '20px',
-        objectFit: 'cover',
-        maxHeight: '500px',
-        maxWidth: '1000px'
+        objectFit: 'fill',
+        height: '500px',
+        width: '1000px'
     },
     card: {
         borderRadius: '20px',
@@ -27,12 +27,6 @@ export default makeStyles((theme) => ({
         margin: '20px 20px 20px 20px',
         [theme.breakpoints.down('sm')]: {
             marginLeft: 0,
-        },
-    },
-    recommendedPosts: {
-        display: 'flex',
-        [theme.breakpoints.down('sm')]: {
-            flexDirection: 'column',
         },
     },
     loadingPaper: {
