@@ -36,7 +36,7 @@ const signUp = async (req, res) => {
             return res.status(400).json({ message: 'User already exists' })
         }
 
-        if (!password === confirmPassword) {
+        if (password !== confirmPassword) {
             return res.status(404).json({ message: 'Passwords must match' })
         }
 
